@@ -28,7 +28,7 @@ export class TestimonialSectionComponent implements OnInit, OnDestroy {
       quote:
         "My favorite part about this business is I'm not alone. From continued training, answering my questions, giving me advise and they cheer me along! Thinking of taking the leap? I can highly recommend being a dealer with N-Compass TV.",
       authorName: 'SUSAN THOMPSON',
-      authorAvatarUrl: 'testimonial1.png',
+      authorAvatarUrl: 'assets/images/testimonial1.png',
     },
     {
       id: 'jessey-kirk',
@@ -36,7 +36,7 @@ export class TestimonialSectionComponent implements OnInit, OnDestroy {
         'The most important part of the Startup Framework is the samples. The samples form a set of usable pages you can use as is or you can add new blocks from UI Kit.',
       authorName: 'JESSEY KIRK',
       authorTitle: 'DESIGNMODO',
-      authorAvatarUrl: 'testimonial2.png',
+      authorAvatarUrl: 'assets/images/testimonial2.png',
     },
     {
       id: 'sarah-jenkins',
@@ -44,7 +44,7 @@ export class TestimonialSectionComponent implements OnInit, OnDestroy {
         'N-Compass TV has transformed our local business presence. The indoor billboard placement gave us incredible visibility in our community!',
       authorName: 'SARAH JENKINS',
       authorTitle: 'MARKETING DIRECTOR',
-      authorAvatarUrl: 'socialmediaman.png',
+      authorAvatarUrl: 'assets/images/socialmediaman.png',
     },
   ];
 
