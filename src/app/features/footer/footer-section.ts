@@ -1,4 +1,4 @@
-import { Component, signal, WritableSignal, Output, EventEmitter, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, signal, WritableSignal, Output, EventEmitter, ElementRef, HostListener, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SocialPlatform } from '../../shared/models/nav-item.interface';
 
@@ -12,7 +12,7 @@ import { SocialPlatform } from '../../shared/models/nav-item.interface';
   templateUrl: './footer-section.html',
   styleUrl: './footer-section.scss',
 })
-export class FooterSectionComponent implements AfterViewInit, OnDestroy {
+export class FooterSectionComponent implements OnDestroy {
   /** Emits when "Get In Touch" button is clicked */
   @Output() getInTouchClick = new EventEmitter<void>();
 
@@ -24,36 +24,37 @@ export class FooterSectionComponent implements AfterViewInit, OnDestroy {
 
   public readonly currentYear: number = new Date().getFullYear();
 
-  private intersectionObserver: IntersectionObserver | null = null;
+  private scrollRAF: number | null = null;
 
   constructor(private el: ElementRef) {}
 
-  public ngAfterViewInit(): void {
-    // Automatically trigger slide-up when footer section enters viewport
-    if (typeof IntersectionObserver !== 'undefined') {
-      this.intersectionObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              // Delay slightly for dramatic entrance effect
-              setTimeout(() => {
-                this.isSlidUp.set(true);
-              }, 300);
-            }
-          });
-        },
-        { threshold: 0.25 }
-      );
-      this.intersectionObserver.observe(this.el.nativeElement);
-    } else {
-      // Fallback if IntersectionObserver not available
-      setTimeout(() => this.isSlidUp.set(true), 500);
-    }
+  /**
+   * Fires on every window scroll event (throttled via requestAnimationFrame).
+   * Activates footer drawer when the user has scrolled into the footer zone,
+   * reverses when the user scrolls back up.
+   */
+  @HostListener('window:scroll')
+  onWindowScroll(): void {
+    if (this.scrollRAF !== null) return;
+    this.scrollRAF = requestAnimationFrame(() => {
+      this.scrollRAF = null;
+      const scrollBottom = window.scrollY + window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+      const footerHeight = this.el.nativeElement.offsetHeight || 0;
+
+      // Reveal when scroll bottom is within the footer's reveal zone
+      const threshold = Math.max(footerHeight * 0.9, 80);
+      const shouldReveal = scrollBottom >= docHeight - footerHeight + threshold;
+
+      if (shouldReveal !== this.isSlidUp()) {
+        this.isSlidUp.set(shouldReveal);
+      }
+    });
   }
 
   public ngOnDestroy(): void {
-    if (this.intersectionObserver) {
-      this.intersectionObserver.disconnect();
+    if (this.scrollRAF !== null) {
+      cancelAnimationFrame(this.scrollRAF);
     }
   }
 

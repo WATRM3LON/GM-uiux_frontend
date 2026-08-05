@@ -12,50 +12,54 @@
     (callClick)="handleCallAction()"
   />
 
-  <!-- 1. Hero Section -->
-  <section id="hero" class="landing-page__section">
-    <app-hero
-      (learnMoreClick)="showToast('Learn More clicked!')"
-      (watchVideoClick)="showToast('Watch Video clicked!')"
-    />
-  </section>
+  <!-- Main Content Body (Covers sticky reveal footer) -->
+  <div class="landing-page__content">
+    <!-- 1. Hero Section -->
+    <section id="hero" class="landing-page__section">
+      <app-hero
+        (learnMoreClick)="showToast('Learn More clicked!')"
+        (watchVideoClick)="showToast('Watch Video clicked!')"
+      />
+    </section>
 
-  <!-- 2. About Section -->
-  <section id="about" class="landing-page__section">
-    <app-about
-      (learnMoreClick)="showToast('About: Learn More clicked!')"
-      (modelClick)="showToast('About: Model action clicked!')"
-    />
-  </section>
+    <!-- 2. About Section -->
+    <section id="about" class="landing-page__section">
+      <app-about
+        (learnMoreClick)="showToast('About: Learn More clicked!')"
+        (modelClick)="showToast('About: Model action clicked!')"
+      />
+    </section>
 
-  <!-- 3. Services Section -->
-  <section id="services" class="landing-page__section">
-    <app-services
-      (serviceClick)="showToast('Service selected: ' + $event.title)"
-    />
-  </section>
+    <!-- 3. Services Section -->
+    <section id="services" class="landing-page__section">
+      <app-services
+        (serviceClick)="showToast('Service selected: ' + $event.title)"
+      />
+    </section>
 
-  <!-- 4. Podcast Section -->
-  <section id="podcast" class="landing-page__section">
-    <app-podcast
-      (spotifyClick)="showToast('Opening Spotify Podcasts...')"
-      (appleClick)="showToast('Opening Apple Podcasts...')"
-      (playClick)="showToast('Playing Podcast Video...')"
-    />
-  </section>
+    <!-- 4. Podcast Section -->
+    <section id="podcast" class="landing-page__section">
+      <app-podcast
+        (spotifyClick)="showToast('Opening Spotify Podcasts...')"
+        (appleClick)="showToast('Opening Apple Podcasts...')"
+        (playClick)="showToast('Playing Podcast Video...')"
+      />
+    </section>
 
-  <!-- 5. Testimonials Section -->
-  <section id="testimonials" class="landing-page__section">
-    <app-testimonial-section
-      (authorClick)="showToast('Testimonial author: ' + $event.authorName)"
-    />
-  </section>
+    <!-- 5. Testimonials Section -->
+    <section id="testimonials" class="landing-page__section">
+      <app-testimonial-section
+        (authorClick)="showToast('Testimonial author: ' + $event.authorName)"
+      />
+    </section>
+  </div>
 
-  <!-- 6. Footer Section -->
-  <section id="footer" class="landing-page__section">
+  <!-- 6. Footer Section (Sticky bottom reveal beneath content body) -->
+  <section id="footer" class="landing-page__section landing-page__section--footer">
     <app-footer-section
       (getInTouchClick)="showToast('Get In Touch clicked!')"
       (socialClick)="handleSocialSelect($event)"
     />
   </section>
 </main>
+

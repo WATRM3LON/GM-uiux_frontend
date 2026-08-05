@@ -39,8 +39,20 @@ export class FooterComponent {
    * @returns void
    */
   public handleSocialClick(platform: SocialPlatform): void {
-    this.socialClick.emit(platform);
+  const socialLinks: Record<SocialPlatform, string> = {
+    linkedin: 'https://www.linkedin.com/company/n-compass-tv/', // replace with actual URL
+    facebook: 'https://www.facebook.com/ncompass.tv/',            // replace with actual URL
+    instagram: 'https://www.instagram.com/ncompasstv/',         // replace with actual URL
+  };
+
+  const url = socialLinks[platform];
+
+  if (url) {
+    window.open(url, '_blank', 'noopener,noreferrer');
   }
+
+  this.socialClick.emit(platform);
+}
 
   /**
    * Tracks nav items by ID.

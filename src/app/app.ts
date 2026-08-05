@@ -50,8 +50,10 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
   public ngAfterViewInit(): void {
     if (typeof IntersectionObserver !== 'undefined') {
-      const sectionIds = ['hero', 'about', 'services', 'podcast', 'testimonials', 'footer'];
-      
+      const contentSectionIds = ['hero', 'about', 'services', 'podcast', 'testimonials', 'contact'];
+
+      // Observer for content sections: entrance animation + active nav tracking.
+      // Once a section becomes visible it stays visible (animation plays once).
       this.sectionObserver = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -64,27 +66,29 @@ export class AppComponent implements AfterViewInit, OnDestroy {
         { threshold: 0.15 }
       );
 
-      sectionIds.forEach((id) => {
+      // Mark hero visible immediately on load
+      const heroEl = document.getElementById('hero');
+      if (heroEl) {
+        heroEl.classList.add('landing-page__section--visible');
+      }
+
+      contentSectionIds.forEach((id) => {
         const el = document.getElementById(id);
         if (el) {
-          if (id === 'hero') {
-            el.classList.add('landing-page__section--visible');
-          }
           this.sectionObserver?.observe(el);
         }
       });
+
     } else {
-      const sectionIds = ['hero', 'about', 'services', 'podcast', 'testimonials', 'footer'];
-      sectionIds.forEach((id) => {
+      // Fallback — no IntersectionObserver: make everything visible immediately
+      ['hero', 'about', 'services', 'podcast', 'testimonials', 'contact'].forEach((id) => {
         document.getElementById(id)?.classList.add('landing-page__section--visible');
       });
     }
   }
 
   public ngOnDestroy(): void {
-    if (this.sectionObserver) {
-      this.sectionObserver.disconnect();
-    }
+    this.sectionObserver?.disconnect();
   }
 
   // --- Public Methods ---
