@@ -23,6 +23,17 @@
     animation: fadeInToast 0.3s ease forwards;
   }
 
+  // ─── Content Wrapper ────────────────────────────────────────────────
+  // Sits on top of the sticky footer via z-index + solid background.
+  // As this wrapper scrolls off the viewport, the footer is revealed.
+  &__content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    background-color: #080d19;
+  }
+
+  // ─── Section Base ────────────────────────────────────────────────────
   &__section {
     position: relative;
     z-index: 2;
@@ -32,10 +43,10 @@
     flex-direction: column;
     justify-content: center;
     scroll-snap-align: start;
-    scroll-margin-top: 4rem; // Offset for sticky navbar
+    scroll-margin-top: 4rem;
     box-sizing: border-box;
 
-    // Entrance Animation setup
+    // Entrance animation: each content section fades in once from below
     opacity: 0;
     transform: translateY(35px);
     transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
@@ -46,16 +57,23 @@
       opacity: 1;
       transform: translateY(0);
     }
-  }
-}
 
-// Special footer section reveal styling
-#footer.landing-page__section {
-  position: sticky;
-  bottom: 0;
-  z-index: 1;
-  min-height: auto;
-  scroll-snap-align: end;
+    // ─── Footer Section ──────────────────────────────────────────────
+    // Sticks to the bottom of the viewport, hidden behind the content
+    // wrapper (z-index: 1 < content z-index: 2). Revealed naturally as
+    // the content wrapper scrolls off the bottom of the viewport.
+    &--footer {
+      position: sticky;
+      bottom: 0;
+      z-index: 1;
+      min-height: auto;
+      // Override inherited entrance-animation defaults
+      opacity: 1;
+      transform: none;
+      transition: none;
+      will-change: auto;
+    }
+  }
 }
 
 @keyframes fadeInToast {

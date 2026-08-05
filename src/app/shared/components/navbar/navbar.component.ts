@@ -33,7 +33,7 @@ export class NavbarComponent {
     const currentSection = this.activeSection().toLowerCase();
     // Dark sections: hero, home, about, podcast, footer, contact
     // Light sections: services, testimonials
-    const isLightSection = currentSection === 'services' || currentSection === 'testimonials';
+    const isLightSection = currentSection === 'services' || currentSection === 'testimonials' || currentSection === 'contact';
     return isLightSection ? 'assets/NCTV-C_LOGO-black.svg' : 'assets/NCTV-C_LOGO-white.svg';
   });
 
@@ -41,7 +41,7 @@ export class NavbarComponent {
   public readonly activeItemId = computed<string>(() => {
     const current = this.activeSection().toLowerCase();
     if (current === 'hero') return 'home';
-    if (current === 'footer') return 'contact';
+    if (current === 'contact') return 'footer';
     return current;
   });
 
