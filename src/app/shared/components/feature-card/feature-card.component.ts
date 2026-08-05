@@ -1,4 +1,5 @@
 import { Component, input, OutputEmitterRef, output } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FeatureCardData } from '../../models/feature-card.interface';
 import { DEFAULT_FEATURE_CARD_DATA } from '../../constants/card-data.constant';
 
@@ -8,6 +9,7 @@ import { DEFAULT_FEATURE_CARD_DATA } from '../../constants/card-data.constant';
 @Component({
   selector: 'app-feature-card',
   standalone: true,
+  imports: [CommonModule],
   templateUrl: './feature-card.component.html',
   styleUrl: './feature-card.component.scss'
 })

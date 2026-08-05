@@ -9,7 +9,10 @@
   <div class="feature-card__overlay"></div>
 
   <div class="feature-card__header">
-    <div class="feature-card__badge">
+    <div
+      class="feature-card__badge"
+      [ngClass]="data().badgeType ? 'feature-card__badge--' + data().badgeType : ''"
+    >
       <span class="feature-card__badge-text">{{ data().badgeText }}</span>
     </div>
   </div>
@@ -18,15 +21,17 @@
     <h3 class="feature-card__title">{{ data().title }}</h3>
     <p class="feature-card__description">{{ data().description }}</p>
 
-    <a
-      [href]="data().buttonUrl"
+    <button
+      type="button"
       class="feature-card__button"
       (click)="handleActionClick($event)"
+      [attr.aria-label]="'Learn more about ' + data().title"
     >
-      <span class="feature-card__button-text">{{ data().buttonText }}</span>
-      <svg class="feature-card__button-icon" aria-hidden="true">
-        <use href="assets/sprite.svg#icon-arrow-right"></use>
+      <span class="feature-card__button-text">{{ data().buttonText || 'Learn More' }}</span>
+      <svg class="feature-card__button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-    </a>
+    </button>
   </div>
 </article>
+
