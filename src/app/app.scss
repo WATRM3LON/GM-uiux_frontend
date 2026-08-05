@@ -5,6 +5,7 @@
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  background-color: #080d19;
 
   &__toast {
     position: fixed;
@@ -24,9 +25,37 @@
 
   &__section {
     position: relative;
+    z-index: 2;
     width: 100%;
-    scroll-margin-top: 4.5rem; // Offset for sticky navbar
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    scroll-snap-align: start;
+    scroll-margin-top: 4rem; // Offset for sticky navbar
+    box-sizing: border-box;
+
+    // Entrance Animation setup
+    opacity: 0;
+    transform: translateY(35px);
+    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+
+    &--visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
+}
+
+// Special footer section reveal styling
+#footer.landing-page__section {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  min-height: auto;
+  scroll-snap-align: end;
 }
 
 @keyframes fadeInToast {
@@ -39,3 +68,4 @@
     transform: translateY(0);
   }
 }
+

@@ -6,13 +6,14 @@ import { TestimonialData } from '../models/testimonial.interface';
  */
 export const DEFAULT_FEATURE_CARD_DATA: Readonly<FeatureCardData> = {
   id: 'website-dev',
-  badgeText: 'TEXT',
+  badgeText: 'FOUNDATIONAL',
+  badgeType: 'foundational',
   title: 'Website Development',
   description:
     "A modern website is critical for developing Local SEO and your customer's brand with detailed and engaging content...",
   buttonText: 'Learn More',
   buttonUrl: '/services/website-development',
-  backgroundImageUrl: 'webdev.png'
+  backgroundImageUrl: 'assets/images/webdev.png'
 };
 
 /**
@@ -22,23 +23,25 @@ export const ALL_FEATURE_CARDS_DATA: readonly FeatureCardData[] = [
   DEFAULT_FEATURE_CARD_DATA,
   {
     id: 'social-media-ads',
-    badgeText: 'TEXT',
+    badgeText: 'LEAD GEN',
+    badgeType: 'lead-gen',
     title: 'Social Media Ads',
     description:
       'Targeted social media advertising campaigns designed to maximize engagement and ROI across platforms.',
     buttonText: 'Learn More',
     buttonUrl: '/services/social-media-ads',
-    backgroundImageUrl: 'socialmediaads.png'
+    backgroundImageUrl: 'assets/images/socialmediaads.png'
   },
   {
     id: 'display-ads',
-    badgeText: 'TEXT',
+    badgeText: 'BRANDING',
+    badgeType: 'branding',
     title: 'Display Ads',
     description:
       'Eye-catching digital display ads broadcasted across local community venues and digital billboards.',
     buttonText: 'Learn More',
     buttonUrl: '/services/display-ads',
-    backgroundImageUrl: 'displayads.png'
+    backgroundImageUrl: 'assets/images/displayads.png'
   }
 ];
 

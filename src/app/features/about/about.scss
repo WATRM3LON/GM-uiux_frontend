@@ -6,8 +6,11 @@
 .about {
   position: relative;
   width: 100%;
-  min-height: 80vh;
-  padding: 5rem 1.5rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6rem 1.5rem;
   overflow: hidden;
   background-color: #0c1322; // Dark fallback
 
@@ -32,23 +35,23 @@
     position: absolute;
     inset: 0;
     z-index: 1;
-    background: rgba(9, 22, 53, 0.70);
+    background: rgba(9, 22, 53, 0.6);
     pointer-events: none;
   }
 
   @media (min-width: 768px) {
-    padding: 6rem 3rem;
+    padding: 3rem 3rem;
   }
 
   @media (min-width: 1200px) {
-    padding: 7rem 4rem;
+    padding: 3rem 4rem;
   }
 
   &__container {
     position: relative;
     z-index: 2;
     max-width: 80rem;
-    margin: 9rem auto;
+    margin: 6rem auto 6rem auto;
   }
 
   &__grid {
@@ -79,9 +82,9 @@
   #091635 49%,
   #1A409B 200%
 );
-      box-shadow: 0 20px 40px rgba(255, 255, 255, 0.2);
+      box-shadow: 0px 10px 20px 10px rgba(255, 255, 255, 0.1);
       justify-content: space-between;
-      gap: 1.75rem;
+      gap: 1.25rem;
     }
 
     &--model {
@@ -141,12 +144,12 @@
     line-height: 1.75;
 
     &--light {
-      color: #F3E7FF;
+      color: #ffffff;
       font-weight: 400;
     }
 
     &--dark {
-      color: #334155;
+      color: #091635;
       font-weight: 500;
     }
   }

@@ -33,6 +33,10 @@ export class HeroComponent {
    * @returns void
    */
   public handleWatchVideo(): void {
-    this.watchVideoClick.emit();
-  }
+  window.open(
+    'https://www.youtube.com/watch?v=ES-QrquEH8M',
+    '_blank',
+    'noopener,noreferrer'
+  );
+}
 }

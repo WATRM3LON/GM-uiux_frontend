@@ -2,10 +2,6 @@ import { Component, signal, WritableSignal, AfterViewInit, OnDestroy } from '@an
 import { CommonModule } from '@angular/common';
 
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
-import { FooterComponent } from './shared/components/footer/footer.component';
-import { GlassIconComponent } from './shared/components/glass-icon/glass-icon.component';
-import { FeatureCardComponent } from './shared/components/feature-card/feature-card.component';
-import { TestimonialCardComponent } from './shared/components/testimonial-card/testimonial-card.component';
 import { SocialPlatform } from './shared/models/nav-item.interface';
 import { HeroComponent } from './features/hero/hero';
 import { AboutComponent } from './features/about/about';
@@ -26,8 +22,6 @@ import { TestimonialData } from './shared/models/testimonial.interface';
   imports: [
     CommonModule,
     NavbarComponent,
-    FooterComponent,
-    GlassIconComponent,
     HeroComponent,
     AboutComponent,
     ServicesComponent,
@@ -63,17 +57,26 @@ export class AppComponent implements AfterViewInit, OnDestroy {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               this.activeSection.set(entry.target.id);
+              entry.target.classList.add('landing-page__section--visible');
             }
           });
         },
-        { threshold: 0.35 }
+        { threshold: 0.15 }
       );
 
       sectionIds.forEach((id) => {
         const el = document.getElementById(id);
         if (el) {
+          if (id === 'hero') {
+            el.classList.add('landing-page__section--visible');
+          }
           this.sectionObserver?.observe(el);
         }
+      });
+    } else {
+      const sectionIds = ['hero', 'about', 'services', 'podcast', 'testimonials', 'footer'];
+      sectionIds.forEach((id) => {
+        document.getElementById(id)?.classList.add('landing-page__section--visible');
       });
     }
   }

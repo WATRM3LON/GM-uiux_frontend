@@ -14,50 +14,22 @@
     </header>
 
     <!-- Services Carousel Track -->
-    <div class="services__carousel-wrapper">
+    <div
+      class="services__carousel-wrapper"
+      [style.--cards-per-view]="cardsPerView()"
+      [style.--active-index]="activeIndex()"
+    >
       <div
         class="services__carousel-track"
-        [style.transform]="'translateX(-' + (activeIndex() * 320) + 'px)'"
+        [style.transform]="'translateX(calc(-1 * ' + activeIndex() + ' * (100% + var(--gap)) / ' + cardsPerView() + '))'"
       >
         @for (item of services; track item.id) {
-          <article class="services__card">
-            <!-- Background Image -->
-            <img
-              [src]="item.imageUrl"
-              [alt]="item.title"
-              class="services__card-img"
-              loading="lazy"
+          <div class="services__card-item">
+            <app-feature-card
+              [data]="item"
+              (cardClick)="handleServiceSelect(item)"
             />
-            <div class="services__card-overlay"></div>
-
-            <!-- Top Badge -->
-            <div class="services__card-badge-wrap">
-              <span
-                class="services__card-badge"
-                [ngClass]="'services__card-badge--' + item.badgeType"
-              >
-                {{ item.badge }}
-              </span>
-            </div>
-
-            <!-- Content Bottom -->
-            <div class="services__card-content">
-              <h3 class="services__card-title">{{ item.title }}</h3>
-              <p class="services__card-desc">{{ item.description }}</p>
-
-              <button
-                type="button"
-                class="services__card-btn"
-                (click)="handleServiceSelect(item)"
-                aria-label="Learn more about {{ item.title }}"
-              >
-                <span>Learn More</span>
-                <svg class="services__card-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </button>
-            </div>
-          </article>
+          </div>
         }
       </div>
     </div>
@@ -77,13 +49,13 @@
 
       <!-- Pagination Indicators -->
       <div class="services__pagination">
-        @for (item of services; track item.id; let i = $index) {
+        @for (dotIndex of visibleDots; track dotIndex) {
           <button
             type="button"
             class="services__dot"
-            [class.services__dot--active]="i === activeIndex()"
-            (click)="goToSlide(i)"
-            aria-label="Go to slide {{ i + 1 }}"
+            [class.services__dot--active]="dotIndex === activeIndex()"
+            (click)="goToSlide(dotIndex)"
+            [attr.aria-label]="'Go to slide ' + (dotIndex + 1)"
           ></button>
         }
       </div>
@@ -102,3 +74,4 @@
 
   </div>
 </section>
+

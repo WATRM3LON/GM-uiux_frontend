@@ -6,9 +6,9 @@
 .footer-sec {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  min-height: auto;
   background-color: #080d19;
-  overflow: visible;
+  overflow: hidden;
 
   // ─── CTA Background Container ─────────────────────
   &__bg-container {
@@ -154,10 +154,9 @@
     border-right: 1px solid #8DCB2C;
     border-left: 1px solid #8DCB2C;
 
-    // Initial state: slid down off-screen (using margin to push below)
-    transform: translateY(100%);
+    // Initial state: slid down slightly
+    transform: translateY(60px);
     opacity: 0;
-    margin-top: -120px;
     transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
 
     &--active {

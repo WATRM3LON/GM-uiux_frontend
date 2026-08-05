@@ -5,6 +5,10 @@
 
 .podcast {
   width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding: 6rem 1.5rem;
   background-color: #091635; // Deep dark navy theme matching image 1
   overflow: hidden;
