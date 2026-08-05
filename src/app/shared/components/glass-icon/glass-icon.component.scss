@@ -1,0 +1,29 @@
+.glass-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+
+  &__symbol {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: rgba(255, 255, 255, 0.7);
+    transition: color 0.25s ease;
+  }
+
+  &:hover {
+    background: rgba(139, 248, 50, 0.05);
+    border-color: rgba(139, 248, 50, 0.5);
+
+    .glass-icon__symbol {
+      color: #7DC931;
+    }
+  }
+}

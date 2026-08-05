@@ -1,0 +1,85 @@
+<section class="about" aria-label="About N-Compass TV">
+  <!-- Background Image & Overlay -->
+  <div class="about__bg-image" aria-hidden="true">
+    <img src="about-bg.png" alt="Indoor billboard background" />
+  </div>
+  <div class="about__overlay" aria-hidden="true"></div>
+
+  <div class="about__container">
+    <div class="about__grid">
+
+      <!-- Left Card: Our Journey -->
+      <article class="about__card about__card--journey">
+        <span class="about__badge about__badge--green">OUR JOURNEY</span>
+        
+        <h2 class="about__title about__title--journey">
+          The Future of
+          <span class="about__title-highlight">Community Digital Advertising</span>
+        </h2>
+
+        <p class="about__description about__description--light">
+          Since 2008, N-Compass TV has been transforming local advertising through a nationwide network of owner-operated indoor digital billboards. By combining innovative Digital Out-of-Home (DOOH) technology with a unique dealer-based business model, we empower entrepreneurs to grow successful marketing businesses while helping communities connect with local audiences through impactful digital advertising.
+        </p>
+
+        <button
+          type="button"
+          class="about__btn-journey"
+          (click)="handleLearnMore()"
+          aria-label="Learn more about our journey"
+        >
+          <span>Learn More</span>
+          <svg class="about__btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </article>
+
+      <!-- Right Column: Model + Stats -->
+      <div class="about__right-col">
+
+        <!-- Right Top Card: Our Model -->
+        <article class="about__card about__card--model">
+          <span class="about__badge about__badge--dark">OUR MODEL</span>
+
+          <h2 class="about__title about__title--model">
+            Grow Your Business with Digital Marketing
+          </h2>
+
+          <p class="about__description about__description--dark">
+            Own and operate your own digital marketing business with indoor digital billboards and a complete suite of marketing services. Build multiple revenue streams while becoming the trusted marketing expert in your community.
+          </p>
+
+          <div class="about__model-footer">
+            <button
+              type="button"
+              class="about__btn-circle"
+              (click)="handleModelAction()"
+              aria-label="Read more about our model"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </article>
+
+        <!-- Right Bottom Stats Grid -->
+        <div class="about__stats-grid">
+          <!-- Stat 1: Screens Nationwide -->
+          <div class="about__stat-card about__stat-card--light">
+            <div class="about__stat-number about__stat-number--dark">4000+</div>
+            <div class="about__stat-label about__stat-label--dark">Screens Nationwide</div>
+          </div>
+
+          <!-- Stat 2: Cities Across US -->
+          <div class="about__stat-card about__stat-card--green">
+            <div class="about__stat-number about__stat-number--white">250+</div>
+            <div class="about__stat-label about__stat-label--white">Cities Across US</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>

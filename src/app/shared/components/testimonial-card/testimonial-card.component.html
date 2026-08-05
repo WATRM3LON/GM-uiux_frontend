@@ -1,0 +1,26 @@
+<article class="testimonial-card">
+  <div class="testimonial-card__header">
+    <svg class="testimonial-card__quote-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="currentColor" d="M6 17h3l2-4V7H5v6h3l-2 4zm8 0h3l2-4V7h-6v6h3l-2 4z"/>
+    </svg>
+    <blockquote class="testimonial-card__quote-text">
+      {{ data().quoteText }}
+    </blockquote>
+  </div>
+
+  <div class="testimonial-card__footer">
+    <div class="testimonial-card__avatar-container">
+      <img
+        [src]="data().authorAvatarUrl"
+        [alt]="data().authorName"
+        class="testimonial-card__avatar-image"
+        loading="lazy"
+      />
+    </div>
+    <div class="testimonial-card__author-info">
+      <span class="testimonial-card__author-meta">
+        {{ getAuthorMeta() }}
+      </span>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,69 @@
+<section class="testimonial-sec" aria-label="Testimonials">
+  <div class="testimonial-sec__container">
+
+    <!-- Header Section -->
+    <header class="testimonial-sec__header">
+      <h2 class="testimonial-sec__title">Don't Just Take Our Words For It</h2>
+      <p class="testimonial-sec__subtitle">
+        Expert insights and real conversations exploring the latest trends, innovations, and strategies shaping the future of digital out-of-home advertising.
+      </p>
+    </header>
+
+    <!-- Testimonial Slider Card -->
+    <div class="testimonial-sec__card-wrapper">
+      @for (slide of testimonials; track slide.id; let i = $index) {
+        @if (i === activeIndex()) {
+          <article class="testimonial-sec__card">
+
+            <!-- Big Quote Icon -->
+            <div class="testimonial-sec__quote-icon-wrap" aria-hidden="true">
+              <svg class="testimonial-sec__quote-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+              </svg>
+            </div>
+
+            <!-- Quote Text -->
+            <div class="testimonial-sec__body">
+              <blockquote class="testimonial-sec__quote">
+                "{{ slide.quote }}"
+              </blockquote>
+
+              <!-- Author Info -->
+              <footer
+                class="testimonial-sec__author"
+                (click)="handleAuthorSelect(slide)"
+              >
+                <img
+                  [src]="slide.authorAvatarUrl"
+                  [alt]="slide.authorName"
+                  class="testimonial-sec__avatar"
+                />
+                <div class="testimonial-sec__author-info">
+                  <span class="testimonial-sec__author-name">{{ slide.authorName }}</span>
+                  @if (slide.authorTitle) {
+                    <span class="testimonial-sec__author-title">{{ slide.authorTitle }}</span>
+                  }
+                </div>
+              </footer>
+            </div>
+
+          </article>
+        }
+      }
+    </div>
+
+    <!-- Pagination Dots -->
+    <div class="testimonial-sec__pagination">
+      @for (item of testimonials; track item.id; let i = $index) {
+        <button
+          type="button"
+          class="testimonial-sec__dot"
+          [class.testimonial-sec__dot--active]="i === activeIndex()"
+          (click)="goToSlide(i)"
+          aria-label="Go to testimonial slide {{ i + 1 }}"
+        ></button>
+      }
+    </div>
+
+  </div>
+</section>

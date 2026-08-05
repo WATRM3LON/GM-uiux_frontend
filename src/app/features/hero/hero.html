@@ -1,0 +1,67 @@
+<section class="hero" aria-label="N-Compass TV Hero">
+  <!-- Dark gradient overlay -->
+     <video
+    class="hero__background-video"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+  >
+    <source src="assets/videos/hero-video.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <div class="hero__overlay" aria-hidden="true"></div>
+  <div class="hero__circle hero__circle--large" aria-hidden="true"></div>
+  <div class="hero__circle hero__circle--small" aria-hidden="true"></div>
+
+
+  <!-- Main content -->
+  <div class="hero__container">
+    <div class="hero__content">
+      <!-- Headline -->
+      <div class="hero__headline">
+        <h1 class="hero__title">
+          <span class="hero__title-line hero__title-line--white">
+            Community Focused
+          </span>
+          <span class="hero__title-line hero__title-line--green">
+            Indoor Digital Billboards
+          </span>
+        </h1>
+      </div>
+
+      <!-- Subtitle -->
+      <p class="hero__subtitle">
+        N-Compass TV's business model boasts high revenue potential and low startup costs,
+        making it an attractive option for aspiring entrepreneurs.
+      </p>
+
+      <!-- Primary CTA -->
+      <button
+        type="button"
+        id="hero-learn-more-btn"
+        class="hero__cta-button"
+        (click)="handleLearnMore()"
+        aria-label="Learn more about N-Compass TV"
+      >
+        Learn More
+      </button>
+    </div>
+  </div>
+
+  <!-- Watch Video button — bottom-right -->
+  <button
+    type="button"
+    id="hero-watch-video-btn"
+    class="hero__watch-video"
+    (click)="handleWatchVideo()"
+    aria-label="Watch N-Compass TV video"
+  >
+    <svg class="hero__play-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M8 5v14l11-7z" />
+    </svg>
+    <span>Watch Video</span>
+  </button>
+</section>

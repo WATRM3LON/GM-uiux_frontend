@@ -1,12 +1,103 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, signal, WritableSignal, AfterViewInit, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
+import { NavbarComponent } from './shared/components/navbar/navbar.component';
+import { FooterComponent } from './shared/components/footer/footer.component';
+import { GlassIconComponent } from './shared/components/glass-icon/glass-icon.component';
+import { FeatureCardComponent } from './shared/components/feature-card/feature-card.component';
+import { TestimonialCardComponent } from './shared/components/testimonial-card/testimonial-card.component';
+import { SocialPlatform } from './shared/models/nav-item.interface';
+import { HeroComponent } from './features/hero/hero';
+import { AboutComponent } from './features/about/about';
+import { ServicesComponent } from './features/services/services';
+import { PodcastComponent } from './features/podcast/podcast';
+import { TestimonialSectionComponent } from './features/testimonial/testimonial-section';
+import { FooterSectionComponent } from './features/footer/footer-section';
+import { ALL_FEATURE_CARDS_DATA, DEFAULT_FEATURE_CARD_DATA, DEFAULT_TESTIMONIAL_DATA, SECOND_TESTIMONIAL_DATA } from './shared/constants/card-data.constant';
+import { FeatureCardData } from './shared/models/feature-card.interface';
+import { TestimonialData } from './shared/models/testimonial.interface';
+
+/**
+ * Root Application Component presenting a unified, continuous landing page with dynamic section observer.
+ */
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [
+    CommonModule,
+    NavbarComponent,
+    FooterComponent,
+    GlassIconComponent,
+    HeroComponent,
+    AboutComponent,
+    ServicesComponent,
+    PodcastComponent,
+    TestimonialSectionComponent,
+    FooterSectionComponent
+  ],
   templateUrl: './app.html',
-  styleUrl: './app.scss',
+  styleUrl: './app.scss'
 })
-export class App {
-  protected readonly title = signal('GM-uiux_frontend');
+export class AppComponent implements AfterViewInit, OnDestroy {
+  // --- Data Signals / Constants ---
+  public readonly featureCards: readonly FeatureCardData[] = ALL_FEATURE_CARDS_DATA;
+  public readonly primaryFeatureCard: FeatureCardData = DEFAULT_FEATURE_CARD_DATA;
+  public readonly primaryTestimonial: TestimonialData = DEFAULT_TESTIMONIAL_DATA;
+  public readonly secondaryTestimonial: TestimonialData = SECOND_TESTIMONIAL_DATA;
+
+  // --- State Signals ---
+  public readonly activeSocialPlatform: WritableSignal<SocialPlatform> = signal<SocialPlatform>('linkedin');
+  public readonly notificationMessage: WritableSignal<string | null> = signal<string | null>(null);
+
+  /** Currently visible active section ID for sticky navbar logo and active link updates */
+  public readonly activeSection: WritableSignal<string> = signal<string>('hero');
+
+  private sectionObserver: IntersectionObserver | null = null;
+
+  public ngAfterViewInit(): void {
+    if (typeof IntersectionObserver !== 'undefined') {
+      const sectionIds = ['hero', 'about', 'services', 'podcast', 'testimonials', 'footer'];
+      
+      this.sectionObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              this.activeSection.set(entry.target.id);
+            }
+          });
+        },
+        { threshold: 0.35 }
+      );
+
+      sectionIds.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) {
+          this.sectionObserver?.observe(el);
+        }
+      });
+    }
+  }
+
+  public ngOnDestroy(): void {
+    if (this.sectionObserver) {
+      this.sectionObserver.disconnect();
+    }
+  }
+
+  // --- Public Methods ---
+  public handleSocialSelect(platform: SocialPlatform): void {
+    this.activeSocialPlatform.set(platform);
+    this.showToast(`Selected social platform: ${platform}`);
+  }
+
+  public handleCallAction(): void {
+    this.showToast('Initiating phone call to N-Compass TV...');
+  }
+
+  public showToast(message: string): void {
+    this.notificationMessage.set(message);
+    setTimeout((): void => {
+      this.notificationMessage.set(null);
+    }, 3000);
+  }
 }

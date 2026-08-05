@@ -1,0 +1,78 @@
+<header class="navbar">
+  <div class="navbar__container">
+    <!-- Brand Logo switching dynamically between white & black asset -->
+    <a href="#hero" class="navbar__brand" aria-label="N-Compass TV Home" (click)="handleNavSelect({ id: 'home', label: 'HOME', path: '/' }, $event)">
+      <img [src]="logoSrc()" alt="N-Compass TV" class="navbar__logo-img" />
+    </a>
+
+    <!-- Center Desktop Navigation Pill Bar -->
+    <nav class="navbar__nav-pill" aria-label="Main Navigation">
+      <ul class="navbar__nav-list">
+        @for (item of navItems(); track trackByItemId($index, item)) {
+          <li class="navbar__nav-item">
+            <a
+              [href]="item.path"
+              [class.navbar__nav-link--active]="item.id === activeItemId()"
+              class="navbar__nav-link"
+              (click)="handleNavSelect(item, $event)"
+            >
+              {{ item.label }}
+            </a>
+          </li>
+        }
+      </ul>
+    </nav>
+
+    <!-- Right Side Call Action & Mobile Toggle -->
+    <div class="navbar__actions">
+      <button
+        type="button"
+        class="navbar__call-button"
+        aria-label="Call N-Compass TV"
+        (click)="handleCallClick()"
+      >
+        <svg class="navbar__call-icon" aria-hidden="true">
+          <use href="assets/sprite.svg#icon-phone"></use>
+        </svg>
+      </button>
+
+      <button
+        type="button"
+        class="navbar__mobile-toggle"
+        [attr.aria-expanded]="isMobileMenuOpen()"
+        aria-label="Toggle Navigation Menu"
+        (click)="toggleMobileMenu()"
+      >
+        <svg class="navbar__toggle-icon" aria-hidden="true">
+          @if (isMobileMenuOpen()) {
+            <use href="assets/sprite.svg#icon-close"></use>
+          } @else {
+            <use href="assets/sprite.svg#icon-menu"></use>
+          }
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Dropdown Menu -->
+  @if (isMobileMenuOpen()) {
+    <div class="navbar__mobile-menu">
+      <nav aria-label="Mobile Navigation">
+        <ul class="navbar__mobile-list">
+          @for (item of navItems(); track trackByItemId($index, item)) {
+            <li class="navbar__mobile-item">
+              <a
+                [href]="item.path"
+                [class.navbar__mobile-link--active]="item.id === activeItemId()"
+                class="navbar__mobile-link"
+                (click)="handleNavSelect(item, $event)"
+              >
+                {{ item.label }}
+              </a>
+            </li>
+          }
+        </ul>
+      </nav>
+    </div>
+  }
+</header>

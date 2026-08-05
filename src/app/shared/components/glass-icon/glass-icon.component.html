@@ -1,0 +1,11 @@
+<a
+  [href]="href()"
+  [attr.aria-label]="ariaLabel()"
+  [class.glass-icon--active]="isActive()"
+  class="glass-icon"
+  (click)="handleClick($event)"
+>
+  <svg class="glass-icon__symbol" aria-hidden="true">
+    <use [attr.href]="getSpriteAnchor()"></use>
+  </svg>
+</a>

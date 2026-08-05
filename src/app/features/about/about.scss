@@ -1,0 +1,285 @@
+// =====================================================
+// About Component Styles
+// N-Compass TV — Our Journey & Business Model Section
+// =====================================================
+
+.about {
+  position: relative;
+  width: 100%;
+  min-height: 80vh;
+  padding: 5rem 1.5rem;
+  overflow: hidden;
+  background-color: #0c1322; // Dark fallback
+
+  &__bg-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.35) contrast(1.1) blur(3px);
+      transform: scale(1.05);
+    }
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: rgba(9, 22, 53, 0.70);
+    pointer-events: none;
+  }
+
+  @media (min-width: 768px) {
+    padding: 6rem 3rem;
+  }
+
+  @media (min-width: 1200px) {
+    padding: 7rem 4rem;
+  }
+
+  &__container {
+    position: relative;
+    z-index: 2;
+    max-width: 80rem;
+    margin: 9rem auto;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+
+    @media (min-width: 992px) {
+      grid-template-columns: 1fr 1fr;
+      align-items: stretch;
+    }
+  }
+
+  // ─── Base Card Styles ─────────────────────────────
+  &__card {
+    border-radius: 28px;
+    padding: 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+
+    @media (min-width: 768px) {
+      padding: 3rem 2.75rem;
+    }
+
+    &--journey {
+      background: linear-gradient(
+  180deg,
+  #091635 49%,
+  #1A409B 200%
+);
+      box-shadow: 0 20px 40px rgba(255, 255, 255, 0.2);
+      justify-content: space-between;
+      gap: 1.75rem;
+    }
+
+    &--model {
+      background: linear-gradient(165deg, #ffffff 0%, #f4fce8 60%, #e2f7c5 100%);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      gap: 1.25rem;
+    }
+  }
+
+  // ─── Badges ───────────────────────────────────────
+  &__badge {
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 0em;
+    text-transform: uppercase;
+
+    &--green {
+      color: #8DCB2C;
+    }
+
+    &--dark {
+      color: #0f172a;
+    }
+  }
+
+  // ─── Section Titles ───────────────────────────────
+  &__title {
+    font-family: 'Inter', sans-serif;
+    font-size: 40px;
+    font-weight: 1000;
+    line-height: 1;
+
+    &--journey {
+      color: #ffffff;
+    }
+
+    &--model {
+      color: #8DCB2C;
+    }
+  }
+
+  &__title-highlight {
+    background-image: linear-gradient(0deg, #8DCB2C 40%, #FFFFFF 90%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+  }
+
+  // ─── Descriptions ─────────────────────────────────
+  &__description {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.75;
+
+    &--light {
+      color: #F3E7FF;
+      font-weight: 400;
+    }
+
+    &--dark {
+      color: #334155;
+      font-weight: 500;
+    }
+  }
+
+  // ─── Journey Button ───────────────────────────────
+  &__btn-journey {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    border: 2px solid#8DCB2C;
+    background-color: transparent;
+    color: #8DCB2C;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #7dc931;
+      border-color: #7dc931;
+      color: #090f1d;
+
+      .about__btn-arrow {
+        transform: translateX(3px);
+      }
+    }
+  }
+
+  &__btn-arrow {
+    width: 1.125rem;
+    height: 1.125rem;
+    transition: transform 0.3s ease;
+  }
+
+  // ─── Model Card Footer & Circle Button ────────────
+  &__right-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  &__model-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__btn-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    border: 2px solid #091635;
+    background: transparent;
+    color: #091635;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      transition: transform 0.3s ease;
+    }
+
+    &:hover {
+      background-color: #091635;
+      border-color: #091635;
+      color: #7dc931;
+
+    }
+  }
+
+  // ─── Stats Grid & Cards ───────────────────────────
+  &__stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  &__stat-card {
+    border-radius: 22px;
+    padding: 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column  ;
+    justify-content: center;
+    gap: 0.35rem;
+
+    &--light {
+      background-color: #ebf1f8;
+    }
+
+    &--green {
+      background: linear-gradient(135deg, #7dc931 40%, #fefffc 200%);
+      box-shadow: 0 10px 25px rgba(125, 201, 49, 0.25);
+    }
+  }
+
+  &__stat-number {
+    font-family: 'Inter', sans-serif;
+    font-size: 70px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+
+    &--dark {
+      background-image: linear-gradient(180deg, #091635 40%, #1A409B 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    &--white {
+      color: #ffffff;
+    }
+  }
+
+  &__stat-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+
+    &--dark {
+      color: #1e293b;
+    }
+
+    &--white {
+      color: #ffffff;
+    }
+  }
+}

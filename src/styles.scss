@@ -1,1 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+@use "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --color-brand-green: #8bf832;
+  --color-brand-green-hover: #7ae225;
+  --color-dark-bg: #1a202c;
+  --color-card-dark: #1c2234;
+  --color-pill-dark: #242838;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #ffffff;
+  color: #1e2538;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}

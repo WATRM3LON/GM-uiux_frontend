@@ -1,0 +1,104 @@
+<section class="services" aria-label="N-Compass TV Services">
+  <div class="services__container">
+
+    <!-- Section Header -->
+    <header class="services__header">
+      <span class="services__tag">GO BEYOND THE SCREENS</span>
+      <h2 class="services__title">
+        Expand Your Reach with
+        <span class="services__title-highlight">Multichannel Advertising</span>
+      </h2>
+      <p class="services__subtitle">
+        Grow beyond digital billboards with expert-managed campaigns, performance analytics, and monthly client reporting.
+      </p>
+    </header>
+
+    <!-- Services Carousel Track -->
+    <div class="services__carousel-wrapper">
+      <div
+        class="services__carousel-track"
+        [style.transform]="'translateX(-' + (activeIndex() * 320) + 'px)'"
+      >
+        @for (item of services; track item.id) {
+          <article class="services__card">
+            <!-- Background Image -->
+            <img
+              [src]="item.imageUrl"
+              [alt]="item.title"
+              class="services__card-img"
+              loading="lazy"
+            />
+            <div class="services__card-overlay"></div>
+
+            <!-- Top Badge -->
+            <div class="services__card-badge-wrap">
+              <span
+                class="services__card-badge"
+                [ngClass]="'services__card-badge--' + item.badgeType"
+              >
+                {{ item.badge }}
+              </span>
+            </div>
+
+            <!-- Content Bottom -->
+            <div class="services__card-content">
+              <h3 class="services__card-title">{{ item.title }}</h3>
+              <p class="services__card-desc">{{ item.description }}</p>
+
+              <button
+                type="button"
+                class="services__card-btn"
+                (click)="handleServiceSelect(item)"
+                aria-label="Learn more about {{ item.title }}"
+              >
+                <span>Learn More</span>
+                <svg class="services__card-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+
+    <!-- Carousel Controls -->
+    <div class="services__controls">
+      <button
+        type="button"
+        class="services__arrow-btn"
+        (click)="prevSlide()"
+        aria-label="Previous service"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <!-- Pagination Indicators -->
+      <div class="services__pagination">
+        @for (item of services; track item.id; let i = $index) {
+          <button
+            type="button"
+            class="services__dot"
+            [class.services__dot--active]="i === activeIndex()"
+            (click)="goToSlide(i)"
+            aria-label="Go to slide {{ i + 1 }}"
+          ></button>
+        }
+      </div>
+
+      <button
+        type="button"
+        class="services__arrow-btn"
+        (click)="nextSlide()"
+        aria-label="Next service"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,32 @@
+<article class="feature-card">
+  <img
+    [src]="data().backgroundImageUrl"
+    [alt]="data().title"
+    class="feature-card__background-img"
+    loading="lazy"
+  />
+
+  <div class="feature-card__overlay"></div>
+
+  <div class="feature-card__header">
+    <div class="feature-card__badge">
+      <span class="feature-card__badge-text">{{ data().badgeText }}</span>
+    </div>
+  </div>
+
+  <div class="feature-card__content">
+    <h3 class="feature-card__title">{{ data().title }}</h3>
+    <p class="feature-card__description">{{ data().description }}</p>
+
+    <a
+      [href]="data().buttonUrl"
+      class="feature-card__button"
+      (click)="handleActionClick($event)"
+    >
+      <span class="feature-card__button-text">{{ data().buttonText }}</span>
+      <svg class="feature-card__button-icon" aria-hidden="true">
+        <use href="assets/sprite.svg#icon-arrow-right"></use>
+      </svg>
+    </a>
+  </div>
+</article>

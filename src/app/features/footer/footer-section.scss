@@ -1,0 +1,352 @@
+// =====================================================
+// Footer Section Component Styles
+// N-Compass TV — CTA Banner with Slide-Up Dark Footer Drawer
+// =====================================================
+
+.footer-sec {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #080d19;
+  overflow: visible;
+
+  // ─── CTA Background Container ─────────────────────
+  &__bg-container {
+    position: relative;
+    width: 100%;
+    min-height: 480px;
+    display: flex;
+    align-items: flex-start;
+    padding: 5rem 2rem 6rem;
+    overflow: hidden; // contain the background image within this block
+
+    @media (min-width: 768px) {
+      padding: 6rem 4rem 8rem;
+      min-height: 540px;
+    }
+  }
+
+  &__bg-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    filter: brightness(0.4) contrast(1.1);
+  }
+
+  &__bg-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      135deg,
+      rgba(8, 13, 25, 0.85) 0%,
+      rgba(15, 23, 42, 0.65) 60%,
+      rgba(8, 13, 25, 0.9) 100%
+    );
+    pointer-events: none;
+  }
+
+  // ─── CTA Content ──────────────────────────────────
+  &__cta {
+    position: relative;
+    z-index: 2;
+    max-width: 80rem;
+    width: 100%;
+    margin: 0 auto;
+    padding-top: 4rem;
+    padding-bottom: 5rem;
+  }
+
+  &__cta-content {
+    max-width: 580px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  &__cta-title {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    color: #7dc931; // Lime green headline
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+
+  &__cta-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+    font-weight: 500;
+    line-height: 1.6;
+    color: #ffffff;
+    margin: 0;
+  }
+
+  &__cta-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  &__btn-touch {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    background-color: #8DCB2C;
+    border: 2px solid transparent;
+    color: #080d19;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border: 2px solid #8DCB2C;
+      background-color: transparent;
+      color: #8DCB2C;
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  &__toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.65rem 1.25rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background-color: rgba(15, 23, 42, 0.6);
+    color: #cbd5e1;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    transition: all 0.25s ease;
+
+    &:hover {
+      background-color: rgba(15, 23, 42, 0.9);
+      border-color: #7dc931;
+      color: #7dc931;
+    }
+  }
+
+  // ─── Slide-Up Footer Drawer ─────────────────
+  &__drawer {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    background-color: #0b1222;
+    border-top-left-radius: 36px;
+    border-top-right-radius: 36px;
+    border-top: 1px solid #8DCB2C;
+    border-right: 1px solid #8DCB2C;
+    border-left: 1px solid #8DCB2C;
+
+    // Initial state: slid down off-screen (using margin to push below)
+    transform: translateY(100%);
+    opacity: 0;
+    margin-top: -120px;
+    transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
+
+    &--active {
+      // Active state: slid up into view
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  &__drawer-inner {
+    max-width: 90rem;
+    margin: 0 auto;
+    padding: 3rem 2rem 1.5rem;
+
+    @media (min-width: 768px) {
+      padding: 4rem 3.5rem 2rem;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    margin-bottom: 10rem;
+
+    @media (min-width: 768px) {
+      grid-template-columns: 5fr 3fr 4fr;
+      gap: 3.5rem;
+    }
+  }
+
+  // ─── Brand Column ─────────────────────────────────
+  &__col--brand {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  &__logo {
+    display: inline-block;
+
+    img {
+      height: 4rem;
+      width: auto;
+    }
+  }
+
+  &__desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.65;
+    color: #ffffff;
+    margin: 0;
+    max-width: 400px;
+  }
+
+  &__socials {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+  }
+
+  &__social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.35rem;
+    height: 2.35rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #94a3b8;
+    cursor: pointer;
+    transition: all 0.25s ease;
+
+    svg {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+
+    &:hover {
+      background: rgba(125, 201, 49, 0.15);
+      border-color: rgba(125, 201, 49, 0.5);
+      color: #7dc931;
+    }
+  }
+
+  // ─── Links & Contact Columns ──────────────────────
+  &__title {
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0em;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin: 0 0 1.25rem;
+  }
+
+  &__nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  &__link {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #fafafa;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+        background-image: linear-gradient(0deg, #8DCB2C 0%, #FFFFFF 80%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+  }
+
+  &__contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      color: #cbd5e1;
+
+      a {
+        color: #cbd5e1;
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: #7dc931;
+        }
+      }
+    }
+  }
+
+  &__contact-icon {
+    width: 1.125rem;
+    height: 1.125rem;
+    color: #7dc931;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+
+  // ─── Bottom Divider & Copyright ───────────────────
+  &__divider {
+    border: none;
+    height: 1px;
+    background-color: rgba(125, 201, 49, 0.25);
+    margin: 2rem 0 1.25rem;
+  }
+
+  &__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    color: #64748b;
+  }
+
+  &__copyright {
+    color: #94a3b8;
+  }
+
+  &__privacy {
+    color: #7dc931;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
