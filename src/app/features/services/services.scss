@@ -5,8 +5,11 @@
 
 .services {
   width: 100%;
-  padding: 7rem 1.5rem;
-  min-height: 80vh;
+  padding: 6rem 1.5rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   background-color: #ffffff;
   overflow: hidden;
 
