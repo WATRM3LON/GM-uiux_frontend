@@ -293,7 +293,7 @@
       align-items: flex-start;
       gap: 0.75rem;
       font-family: 'Inter', sans-serif;
-      font-size: 0.8125rem;
+      font-size: 14px;
       line-height: 1.5;
       color: #cbd5e1;
 
@@ -336,11 +336,19 @@
 
   &__copyright {
     color: #94a3b8;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    cursor: default;
   }
 
   &__privacy {
     color: #7dc931;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
     text-decoration: none;
+    cursor: pointer;
 
     &:hover {
       text-decoration: underline;
