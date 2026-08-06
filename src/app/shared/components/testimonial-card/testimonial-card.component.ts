@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output, OutputEmitterRef } from '@angular/core';
 import { TestimonialData } from '../../models/testimonial.interface';
 import { DEFAULT_TESTIMONIAL_DATA } from '../../constants/card-data.constant';
 
@@ -14,14 +14,17 @@ import { DEFAULT_TESTIMONIAL_DATA } from '../../constants/card-data.constant';
 export class TestimonialCardComponent {
   // --- I/O ---
   public readonly data = input<TestimonialData>(DEFAULT_TESTIMONIAL_DATA);
+  public readonly cardClick: OutputEmitterRef<TestimonialData> = output<TestimonialData>();
 
   // --- Public Methods ---
-  /**
-   * Retrieves the combined author meta caption string.
-   * @returns Formatted author name and title
-   */
+  public handleCardClick(): void {
+    this.cardClick.emit(this.data());
+  }
+
   public getAuthorMeta(): string {
     const testimonial = this.data();
-    return `${testimonial.authorName}, ${testimonial.authorTitle}`;
+    return testimonial.authorTitle
+      ? `${testimonial.authorName}, ${testimonial.authorTitle}`
+      : testimonial.authorName;
   }
 }

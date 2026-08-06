@@ -54,7 +54,7 @@ export const DEFAULT_TESTIMONIAL_DATA: Readonly<TestimonialData> = {
     'The most important part of the Startup Framework is the samples. The samples form a set of 25 usable pages you can use as is or you can add new blocks from UI Kit.',
   authorName: 'JESSEY KIRK',
   authorTitle: 'DESIGNMODO',
-  authorAvatarUrl: 'testimonial1.png'
+  authorAvatarUrl: 'assets/images/testimonial1.png'
 };
 
 /**
@@ -66,5 +66,5 @@ export const SECOND_TESTIMONIAL_DATA: Readonly<TestimonialData> = {
     'N-Compass TV has transformed our local business presence. The indoor billboard placement gave us incredible visibility in our community!',
   authorName: 'SARAH JENKINS',
   authorTitle: 'MARKETING DIRECTOR',
-  authorAvatarUrl: 'testimonial2.png'
+  authorAvatarUrl: 'assets/images/testimonial2.png'
 };

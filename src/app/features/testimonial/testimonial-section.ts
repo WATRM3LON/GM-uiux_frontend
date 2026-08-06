@@ -1,13 +1,9 @@
 import { Component, signal, WritableSignal, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TestimonialCardComponent } from '../../shared/components/testimonial-card/testimonial-card.component';
+import { TestimonialData } from '../../shared/models/testimonial.interface';
 
-export interface TestimonialSlide {
-  id: string;
-  quote: string;
-  authorName: string;
-  authorTitle?: string;
-  authorAvatarUrl: string;
-}
+export type TestimonialSlide = TestimonialData;
 
 /**
  * TestimonialSectionComponent — "Don't Just Take Our Words For It" testimonial slider section with auto-sliding.
@@ -15,36 +11,37 @@ export interface TestimonialSlide {
 @Component({
   selector: 'app-testimonial-section',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TestimonialCardComponent],
   templateUrl: './testimonial-section.html',
   styleUrl: './testimonial-section.scss',
 })
 export class TestimonialSectionComponent implements OnInit, OnDestroy {
-  @Output() authorClick = new EventEmitter<TestimonialSlide>();
+  @Output() authorClick = new EventEmitter<TestimonialData>();
 
-  public readonly testimonials: readonly TestimonialSlide[] = [
+  public readonly testimonials: readonly TestimonialData[] = [
     {
       id: 'susan-thompson',
-      quote:
+      quoteText:
         "My favorite part about this business is I'm not alone. From continued training, answering my questions, giving me advise and they cheer me along! Thinking of taking the leap? I can highly recommend being a dealer with N-Compass TV.",
       authorName: 'SUSAN THOMPSON',
-      authorAvatarUrl: 'assets/images/testimonial1.png',
-    },
-    {
-      id: 'jessey-kirk',
-      quote:
-        'The most important part of the Startup Framework is the samples. The samples form a set of usable pages you can use as is or you can add new blocks from UI Kit.',
-      authorName: 'JESSEY KIRK',
-      authorTitle: 'DESIGNMODO',
+      authorTitle: 'WEB DEVELOPER',
       authorAvatarUrl: 'assets/images/testimonial2.png',
     },
     {
+      id: 'jessey-kirk',
+      quoteText:
+        'The most important part of the Startup Framework is the samples. The samples form a set of usable pages you can use as is or you can add new blocks from UI Kit.',
+      authorName: 'JESSEY KIRK',
+      authorTitle: 'DESIGNMODO',
+      authorAvatarUrl: 'assets/images/testimonial1.png',
+    },
+    {
       id: 'sarah-jenkins',
-      quote:
+      quoteText:
         'N-Compass TV has transformed our local business presence. The indoor billboard placement gave us incredible visibility in our community!',
       authorName: 'SARAH JENKINS',
       authorTitle: 'MARKETING DIRECTOR',
-      authorAvatarUrl: 'assets/images/socialmediaman.png',
+      authorAvatarUrl: 'assets/images/testimonial2.png',
     },
   ];
 
@@ -70,7 +67,7 @@ export class TestimonialSectionComponent implements OnInit, OnDestroy {
     this.resetAutoSlide();
   }
 
-  public handleAuthorSelect(slide: TestimonialSlide): void {
+  public handleAuthorSelect(slide: TestimonialData): void {
     this.authorClick.emit(slide);
   }
 

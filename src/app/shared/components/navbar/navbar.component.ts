@@ -31,9 +31,9 @@ export class NavbarComponent {
   /** Computed logo URL based on current active section (white logo for dark sections, black for light sections) */
   public readonly logoSrc = computed<string>(() => {
     const currentSection = this.activeSection().toLowerCase();
-    // Dark sections: hero, home, about, podcast, footer, contact
+    // Dark sections: hero, home, about, podcast, contact (footer)
     // Light sections: services, testimonials
-    const isLightSection = currentSection === 'services' || currentSection === 'testimonials' || currentSection === 'contact';
+    const isLightSection = currentSection === 'services' || currentSection === 'testimonials';
     return isLightSection ? 'assets/NCTV-C_LOGO-black.svg' : 'assets/NCTV-C_LOGO-white.svg';
   });
 
@@ -41,7 +41,7 @@ export class NavbarComponent {
   public readonly activeItemId = computed<string>(() => {
     const current = this.activeSection().toLowerCase();
     if (current === 'hero') return 'home';
-    if (current === 'contact') return 'footer';
+    if (current === 'testimonials') return 'podcast';
     return current;
   });
 
@@ -51,7 +51,22 @@ export class NavbarComponent {
   }
 
   /**
-   * Handles selection of a navigation item with smooth scrolling to target section.
+   * Ordered section IDs matching the card-stack sequence.
+   * Each card occupies exactly one viewport-height slot in the document
+   * (position: sticky; height: 100vh), so its true document offset is:
+   *   index × window.innerHeight
+   * This avoids the sticky trap where getBoundingClientRect().top always
+   * returns 0 for a stuck card, making reverse/non-sequential navigation fail.
+   */
+  private readonly cardSectionIds: readonly string[] = ['hero', 'about', 'services', 'podcast', 'testimonials', 'contact'];
+
+  /**
+   * Handles selection of a navigation item with smooth scrolling to target section card.
+   *
+   * Uses index-based document offset (sectionIndex × viewportHeight) instead of
+   * getBoundingClientRect(), which returns misleading values for sticky elements —
+   * a stuck card always reports top: 0 regardless of actual document position.
+   *
    * @param item Selected navigation item payload
    * @param event DOM click event
    */
@@ -61,14 +76,14 @@ export class NavbarComponent {
     }
     this.isMobileMenuOpen.set(false);
 
-    // Map nav item ID to section DOM ID
-    let targetId = item.id;
-    if (item.id === 'home') targetId = 'hero';
-    if (item.id === 'contact') targetId = 'footer';
+    const targetId = item.id === 'home' ? 'hero' : item.id;
+    const sectionIndex = this.cardSectionIds.indexOf(targetId);
 
-    const element = document.getElementById(targetId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (sectionIndex !== -1) {
+      // Each sticky card slot is exactly one viewport-height tall in the document.
+      // Multiply the index by the current viewport height to get the true scroll target.
+      const targetScrollY = sectionIndex * window.innerHeight;
+      window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
     }
 
     this.navSelect.emit(item);

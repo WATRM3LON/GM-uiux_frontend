@@ -1,4 +1,6 @@
 import { Component, signal, WritableSignal, Output, EventEmitter, ElementRef, HostListener, OnDestroy } from '@angular/core';
+
+import { GlassIconComponent } from '../../shared/components/glass-icon/glass-icon.component';
 import { CommonModule } from '@angular/common';
 import { SocialPlatform } from '../../shared/models/nav-item.interface';
 
@@ -8,7 +10,7 @@ import { SocialPlatform } from '../../shared/models/nav-item.interface';
 @Component({
   selector: 'app-footer-section',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,GlassIconComponent],
   templateUrl: './footer-section.html',
   styleUrl: './footer-section.scss',
 })
@@ -69,7 +71,19 @@ export class FooterSectionComponent implements OnDestroy {
     this.getInTouchClick.emit();
   }
 
-  public handleSocialSelect(platform: SocialPlatform): void {
-    this.socialClick.emit(platform);
+  public handleSocialClick(platform: SocialPlatform): void {
+  const socialLinks: Record<SocialPlatform, string> = {
+    linkedin: 'https://www.linkedin.com/company/n-compass-tv/', // replace with actual URL
+    facebook: 'https://www.facebook.com/ncompass.tv/',            // replace with actual URL
+    instagram: 'https://www.instagram.com/ncompasstv/',         // replace with actual URL
+  };
+
+  const url = socialLinks[platform];
+
+  if (url) {
+    window.open(url, '_blank', 'noopener,noreferrer');
   }
+
+  this.socialClick.emit(platform);
+}
 }

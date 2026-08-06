@@ -74,7 +74,7 @@
   display: inline-block;
     font-family: "Inter", sans-serif;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 500;
     letter-spacing: 0.02em;
     color: #ffffff;
     text-decoration: none;
@@ -85,6 +85,7 @@
     &--active {
       background-image: linear-gradient(180deg, #8DCB2C 0%, #FFFFFF 80%);
       -webkit-background-clip: text;
+      font-weight: 500;
       background-clip: text;
       -webkit-text-fill-color: transparent;
       color: transparent;
@@ -118,11 +119,22 @@
     gap: 0.75rem;
   }
 
+   &__call-wrapper {
+    position: relative;
+     width: 2.75rem;
+    height: 2.75rem;
+    flex-shrink: 0;
+  }
+
   &__call-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0;
+
+ position: absolute;
+  right: 0;
+  top: 0;
 
   width: 2.75rem;
   height: 2.75rem;
@@ -132,7 +144,7 @@
 
   border: none;
   border-radius: 999px;
-  background: #7DC931;
+  background: #8DCB2C;
   cursor: pointer;
 
   transition:
@@ -251,7 +263,7 @@
 
     &--active {
       background-color: rgba(255, 255, 255, 0.15);
-      color: #8bf832;
+      color: #8DCB2C;
     }
   }
 }

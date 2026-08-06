@@ -1,6 +1,9 @@
 // =====================================================
 // Testimonial Section Component Styles
 // N-Compass TV — Don't Just Take Our Words For It Section
+//
+// Card-level styles (quote, author, avatar, etc.) live in
+// testimonial-card.component.scss — this file is section layout only.
 // =====================================================
 
 .testimonial-sec {
@@ -43,7 +46,7 @@
     font-weight: 900;
     line-height: 1.15;
     letter-spacing: -0.02em;
-    color: #162447; // Deep navy matching image 2
+    color: #162447;
     margin: 0;
   }
 
@@ -57,7 +60,8 @@
     max-width: 600px;
   }
 
-  // ─── Card Wrapper & Card ──────────────────────────
+  // ─── Card Wrapper ─────────────────────────────────
+  // Card styles are in testimonial-card.component.scss.
   &__card-wrapper {
     width: 100%;
     max-width: 760px;
@@ -65,101 +69,6 @@
     justify-content: center;
     margin-top: 4rem;
     margin-bottom: 4%;
-  }
-
-  &__card {
-    position: relative;
-    width: 100%;
-    background-color: #ffffff;
-    border-radius: 28px;
-    padding: 3rem 2.5rem 2.5rem;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
-    border: 1px solid rgba(100, 116, 139, 0.2);
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    animation: fadeIn 0.4s ease forwards;
-
-    @media (min-width: 640px) {
-      padding: 3.5rem 3.5rem 3rem;
-      display: grid;
-      grid-template-columns: 48px 1fr;
-      gap: 2rem;
-    }
-  }
-
-  &__quote-icon-wrap {
-    display: flex;
-    align-items: flex-start;
-  }
-
-  &__quote-icon {
-    width: 2.25rem;
-    height: 2.25rem;
-    color: #162447;
-    flex-shrink: 0;
-  }
-
-  &__body {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  &__quote {
-    font-family: 'Inter', sans-serif;
-    font-size: clamp(1rem, 1.4vw, 1.125rem);
-    font-weight: 500;
-    line-height: 1.7;
-    color: #162447;
-    margin: 0;
-  }
-
-  // ─── Author Info ──────────────────────────────────
-  &__author {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    cursor: pointer;
-    transition: transform 0.25s ease;
-
-    &:hover {
-      transform: translateY(-2px);
-    }
-  }
-
-  &__avatar {
-    width: 3.25rem;
-    height: 3.25rem;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #ffffff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-
-  &__author-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  &__author-name {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.8125rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    color: #475569;
-    text-transform: uppercase;
-  }
-
-  &__author-title {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    color: #94a3b8;
-    text-transform: uppercase;
   }
 
   // ─── Pagination Dots ──────────────────────────────
@@ -188,17 +97,6 @@
 
     &:hover:not(&--active) {
       background-color: #94a3b8;
-    }
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
     }
   }
 }
