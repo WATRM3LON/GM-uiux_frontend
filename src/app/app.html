@@ -23,7 +23,7 @@
       style="background-color: #080d19;"
     >
       <app-hero
-        (learnMoreClick)="showToast('Learn More clicked!')"
+        (learnMoreClick)="scrollToContact()"
         (watchVideoClick)="showToast('Watch Video clicked!')"
       />
     </section>
@@ -35,8 +35,8 @@
       style="background-color: #0c1322;"
     >
       <app-about
-        (learnMoreClick)="showToast('About: Learn More clicked!')"
-        (modelClick)="showToast('About: Model action clicked!')"
+        (learnMoreClick)="scrollToContact()"
+        (modelClick)="scrollToContact()"
       />
     </section>
 
@@ -47,7 +47,7 @@
       style="background-color: #ffffff;"
     >
       <app-services
-        (serviceClick)="showToast('Service selected: ' + $event.title)"
+        (serviceClick)="scrollToContact()"
       />
     </section>
 

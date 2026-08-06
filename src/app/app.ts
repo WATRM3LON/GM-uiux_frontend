@@ -235,6 +235,19 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     // Active section is managed exclusively by the navObserver (IntersectionObserver).
     // No manual override needed — the IO will update activeSection as the scroll settles.
   }
+
+  /**
+   * Scrolls smoothly to the Contact section.
+   * Uses the same index-based formula as the navbar:
+   *   scrollY = sectionIndex × window.innerHeight
+   * Contact is the last card (index 5) in the stack.
+   */
+  public scrollToContact(): void {
+    const contactIndex = this.cardSectionIds.indexOf('contact');
+    if (contactIndex !== -1) {
+      window.scrollTo({ top: contactIndex * window.innerHeight, behavior: 'smooth' });
+    }
+  }
   public handleSocialSelect(platform: SocialPlatform): void {
     this.activeSocialPlatform.set(platform);
     this.showToast(`Selected social platform: ${platform}`);
