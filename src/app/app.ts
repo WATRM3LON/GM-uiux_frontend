@@ -46,27 +46,69 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   /** Currently visible active section ID for sticky navbar logo and active link updates */
   public readonly activeSection: WritableSignal<string> = signal<string>('hero');
 
-  private sectionObserver: IntersectionObserver | null = null;
+  /** Observer for entrance animations (fires once per section) */
+  private animationObserver: IntersectionObserver | null = null;
+
+  /**
+   * Observer for active nav tracking.
+   * Uses 21 graduated thresholds to continuously measure each section's
+   * intersection ratio. The section with the highest ratio wins — preventing
+   * premature switching when two sections are simultaneously partially visible.
+   */
+  private navObserver: IntersectionObserver | null = null;
+
+  /** Live intersection ratio for every tracked section */
+  private readonly sectionRatios = new Map<string, number>();
 
   public ngAfterViewInit(): void {
-    if (typeof IntersectionObserver !== 'undefined') {
-      const contentSectionIds = ['hero', 'about', 'services', 'podcast', 'testimonials', 'contact'];
+    const contentSectionIds = ['hero', 'about', 'services', 'podcast', 'testimonials', 'contact'];
 
-      // Observer for content sections: entrance animation + active nav tracking.
-      // Once a section becomes visible it stays visible (animation plays once).
-      this.sectionObserver = new IntersectionObserver(
+    if (typeof IntersectionObserver !== 'undefined') {
+      // ── 1. Animation observer (threshold 0.08 — triggers entrance once) ───
+      this.animationObserver = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              this.activeSection.set(entry.target.id);
               entry.target.classList.add('landing-page__section--visible');
+              // Once animated in, no need to keep observing this element
+              this.animationObserver?.unobserve(entry.target);
             }
           });
         },
-        { threshold: 0.15 }
+        { threshold: 0.08 }
       );
 
-      // Mark hero visible immediately on load
+      // ── 2. Nav-active observer ────────────────────────────────────────────
+      // 21 thresholds give fine-grained ratio updates across the full range.
+      // On each callback, update this section's ratio then pick the winner.
+      const navThresholds = Array.from({ length: 21 }, (_, i) => i / 20);
+
+      this.navObserver = new IntersectionObserver(
+        (entries) => {
+          // Update the stored ratio for every changed entry
+          entries.forEach((entry) => {
+            this.sectionRatios.set(entry.target.id, entry.intersectionRatio);
+          });
+
+          // Pick the section with the highest visible ratio as the active one.
+          // Ties (e.g. both at 0) leave the current activeSection unchanged.
+          let bestId = '';
+          let bestRatio = -1;
+          this.sectionRatios.forEach((ratio, id) => {
+            if (ratio > bestRatio) {
+              bestRatio = ratio;
+              bestId = id;
+            }
+          });
+
+          if (bestId && bestRatio > 0) {
+            this.activeSection.set(bestId);
+          }
+        },
+        { threshold: navThresholds }
+      );
+
+      // ── 3. Mark hero visible immediately; register all sections ──────────
       const heroEl = document.getElementById('hero');
       if (heroEl) {
         heroEl.classList.add('landing-page__section--visible');
@@ -75,20 +117,23 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       contentSectionIds.forEach((id) => {
         const el = document.getElementById(id);
         if (el) {
-          this.sectionObserver?.observe(el);
+          this.sectionRatios.set(id, 0);       // initialise ratio map
+          this.animationObserver?.observe(el);
+          this.navObserver?.observe(el);
         }
       });
 
     } else {
       // Fallback — no IntersectionObserver: make everything visible immediately
-      ['hero', 'about', 'services', 'podcast', 'testimonials', 'contact'].forEach((id) => {
+      contentSectionIds.forEach((id) => {
         document.getElementById(id)?.classList.add('landing-page__section--visible');
       });
     }
   }
 
   public ngOnDestroy(): void {
-    this.sectionObserver?.disconnect();
+    this.animationObserver?.disconnect();
+    this.navObserver?.disconnect();
   }
 
   // --- Public Methods ---

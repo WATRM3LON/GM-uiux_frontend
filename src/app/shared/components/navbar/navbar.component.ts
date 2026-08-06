@@ -31,9 +31,9 @@ export class NavbarComponent {
   /** Computed logo URL based on current active section (white logo for dark sections, black for light sections) */
   public readonly logoSrc = computed<string>(() => {
     const currentSection = this.activeSection().toLowerCase();
-    // Dark sections: hero, home, about, podcast, footer, contact
+    // Dark sections: hero, home, about, podcast, contact (footer)
     // Light sections: services, testimonials
-    const isLightSection = currentSection === 'services' || currentSection === 'testimonials' || currentSection === 'contact';
+    const isLightSection = currentSection === 'services' || currentSection === 'testimonials';
     return isLightSection ? 'assets/NCTV-C_LOGO-black.svg' : 'assets/NCTV-C_LOGO-white.svg';
   });
 
@@ -41,7 +41,7 @@ export class NavbarComponent {
   public readonly activeItemId = computed<string>(() => {
     const current = this.activeSection().toLowerCase();
     if (current === 'hero') return 'home';
-    if (current === 'contact') return 'footer';
+    // 'contact' section maps directly to the 'contact' nav item
     return current;
   });
 
@@ -52,6 +52,8 @@ export class NavbarComponent {
 
   /**
    * Handles selection of a navigation item with smooth scrolling to target section.
+   * Accounts for the sticky navbar height dynamically to prevent the section
+   * heading from being hidden beneath the navbar.
    * @param item Selected navigation item payload
    * @param event DOM click event
    */
@@ -61,14 +63,20 @@ export class NavbarComponent {
     }
     this.isMobileMenuOpen.set(false);
 
-    // Map nav item ID to section DOM ID
-    let targetId = item.id;
-    if (item.id === 'home') targetId = 'hero';
-    if (item.id === 'contact') targetId = 'footer';
-
-    const element = document.getElementById(targetId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (item.id === 'contact') {
+      // Scroll to the very bottom of the page so the sticky footer is fully revealed
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    } else {
+      // Map nav item ID to section DOM ID
+      const targetId = item.id === 'home' ? 'hero' : item.id;
+      const element = document.getElementById(targetId);
+      if (element) {
+        const navbarEl = document.querySelector('.navbar') as HTMLElement | null;
+        const navbarHeight = navbarEl ? navbarEl.getBoundingClientRect().height : 80;
+        const gap = -110;
+        const targetTop = element.getBoundingClientRect().top + window.scrollY - navbarHeight - gap;
+        window.scrollTo({ top: targetTop, behavior: 'smooth' });
+      }
     }
 
     this.navSelect.emit(item);
