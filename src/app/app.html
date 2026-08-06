@@ -9,6 +9,7 @@
   <!-- Sticky Application Navbar -->
   <app-navbar
     [activeSection]="activeSection()"
+    (navSelect)="handleNavSelect($event)"
     (callClick)="handleCallAction()"
   />
 

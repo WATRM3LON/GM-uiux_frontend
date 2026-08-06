@@ -41,7 +41,7 @@ export class NavbarComponent {
   public readonly activeItemId = computed<string>(() => {
     const current = this.activeSection().toLowerCase();
     if (current === 'hero') return 'home';
-    // 'contact' section maps directly to the 'contact' nav item
+    if (current === 'testimonials') return 'podcast';
     return current;
   });
 
@@ -50,10 +50,13 @@ export class NavbarComponent {
     this.isMobileMenuOpen.update((isOpen: boolean): boolean => !isOpen);
   }
 
+  /** Ordered IDs matching card stack sequence in AppComponent */
+  private readonly cardSectionIds: readonly string[] = ['hero', 'about', 'services', 'podcast', 'testimonials', 'contact'];
+
   /**
-   * Handles selection of a navigation item with smooth scrolling to target section.
-   * Accounts for the sticky navbar height dynamically to prevent the section
-   * heading from being hidden beneath the navbar.
+   * Handles selection of a navigation item with smooth scrolling to target section card.
+   * Calculates exact Y scroll top position (element.getBoundingClientRect().top + window.scrollY)
+   * to guarantee smooth scrolling to all sections (Home, About, Services, Podcast, Contact).
    * @param item Selected navigation item payload
    * @param event DOM click event
    */
@@ -63,19 +66,14 @@ export class NavbarComponent {
     }
     this.isMobileMenuOpen.set(false);
 
-    if (item.id === 'contact') {
-      const contactEl = document.getElementById('contact');
-      if (contactEl) {
-        window.scrollTo({ top: contactEl.offsetTop, behavior: 'smooth' });
-      } else {
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-      }
-    } else {
-      const targetId = item.id === 'home' ? 'hero' : item.id;
-      const element = document.getElementById(targetId);
-      if (element) {
-        window.scrollTo({ top: element.offsetTop, behavior: 'smooth' });
-      }
+    const targetId = item.id === 'home' ? 'hero' : item.id;
+    const element = document.getElementById(targetId);
+
+    if (element) {
+      const targetTop = element.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: targetTop, behavior: 'smooth' });
+    } else if (item.id === 'contact') {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
 
     this.navSelect.emit(item);

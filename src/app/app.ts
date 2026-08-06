@@ -2,7 +2,7 @@ import { Component, signal, WritableSignal, AfterViewInit, OnDestroy } from '@an
 import { CommonModule } from '@angular/common';
 
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
-import { SocialPlatform } from './shared/models/nav-item.interface';
+import { NavItem, SocialPlatform } from './shared/models/nav-item.interface';
 import { HeroComponent } from './features/hero/hero';
 import { AboutComponent } from './features/about/about';
 import { ServicesComponent } from './features/services/services';
@@ -148,15 +148,15 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   /**
    * For each card section, calculates scroll progress of incoming and outgoing cards.
    * - Active card at rest: scale(1.0), border-radius: 0px (fills viewport edge-to-edge).
-   * - Incoming card: scales UP (0.98 → 1.0) while smoothly flattening border-radius (36px → 0px).
-   * - Covered card: scales DOWN (1.0 → 0.97) while smoothly restoring rounded corners (0px → 36px) and dimming into depth.
+   * - Incoming card: starts SMALL (scale 0.88) with 52px rounded corners, expanding smoothly to scale 1.0 / 0px border-radius as it reaches top focus.
+   * - Covered card: scales DOWN (1.0 → 0.90) while smoothly restoring rounded corners (0px → 52px) and dimming into depth.
    * - Updates active section signal for logo color switching and nav highlights.
    */
   private updateCardScales(): void {
     const viewportH = window.innerHeight;
     const scrollY = window.scrollY;
     const numCards = this.cardSectionIds.length;
-    const maxRadius = window.innerWidth >= 768 ? 36 : 28;
+    const maxRadius = window.innerWidth >= 768 ? 52 : 36;
 
     const elements: (HTMLElement | null)[] = this.cardSectionIds.map(id => document.getElementById(id));
     const progresses: number[] = new Array(numCards - 1).fill(0);
@@ -189,16 +189,18 @@ export class AppComponent implements AfterViewInit, OnDestroy {
         }
         const totalProgress = coverProgress + extraCover * 0.5;
 
-        scale = Math.max(0.93, 1 - totalProgress * 0.03);
-        brightness = Math.max(0.75, 1 - totalProgress * 0.15);
+        // Active card shrinks into depth as next card covers it (1.0 -> 0.90)
+        scale = Math.max(0.90, 1 - totalProgress * 0.08);
+        brightness = Math.max(0.70, 1 - totalProgress * 0.18);
         borderRadius = Math.min(maxRadius, coverProgress * maxRadius);
       } else if (incomingProgress < 1) {
-        // Card i is incoming (sliding up over card i-1)
-        scale = 0.98 + incomingProgress * 0.02;
+        // Card i is incoming: starts SMALL (0.88) with 52px rounded corners,
+        // and expands smoothly to 1.0 with 0px rounded corners as it reaches top focus!
+        scale = 0.88 + incomingProgress * 0.12;
         brightness = 1;
         borderRadius = (1 - incomingProgress) * maxRadius;
       } else {
-        // Card i is fully active at top
+        // Card i is fully active at top: full-screen panel, 0px border-radius, scale 1.0
         scale = 1.0;
         brightness = 1.0;
         borderRadius = 0;
@@ -210,11 +212,16 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     }
 
     // ── Active Section Detection for Navbar ─────────────────────────
-    const activeIndex = Math.min(
-      numCards - 1,
-      Math.max(0, Math.floor((scrollY + viewportH * 0.45) / viewportH))
-    );
-    const currentActive = this.cardSectionIds[activeIndex];
+    let currentActive = 'hero';
+    for (let i = 0; i < numCards; i++) {
+      const id = this.cardSectionIds[i];
+      const el = elements[i];
+      if (!el) continue;
+      const rect = el.getBoundingClientRect();
+      if (rect.top <= viewportH * 0.5) {
+        currentActive = id;
+      }
+    }
     if (this.activeSection() !== currentActive) {
       this.activeSection.set(currentActive);
     }
@@ -233,6 +240,10 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   }
 
   // --- Public Methods ---
+  public handleNavSelect(item: NavItem): void {
+    const targetSection = item.id === 'home' ? 'hero' : item.id;
+    this.activeSection.set(targetSection);
+  }
   public handleSocialSelect(platform: SocialPlatform): void {
     this.activeSocialPlatform.set(platform);
     this.showToast(`Selected social platform: ${platform}`);
