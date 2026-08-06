@@ -12,33 +12,50 @@
     (callClick)="handleCallAction()"
   />
 
-  <!-- Main Content Body (Covers sticky reveal footer) -->
+  <!-- Card Stack Content -->
   <div class="landing-page__content">
-    <!-- 1. Hero Section -->
-    <section id="hero" class="landing-page__section">
+
+    <!-- 1. Hero — card 0 | dark #080d19 -->
+    <section
+      id="hero"
+      class="landing-page__section landing-page__section--card landing-page__section--card-0"
+      style="background-color: #080d19;"
+    >
       <app-hero
         (learnMoreClick)="showToast('Learn More clicked!')"
         (watchVideoClick)="showToast('Watch Video clicked!')"
       />
     </section>
 
-    <!-- 2. About Section -->
-    <section id="about" class="landing-page__section">
+    <!-- 2. About — card 1 | dark #0c1322 -->
+    <section
+      id="about"
+      class="landing-page__section landing-page__section--card landing-page__section--card-1"
+      style="background-color: #0c1322;"
+    >
       <app-about
         (learnMoreClick)="showToast('About: Learn More clicked!')"
         (modelClick)="showToast('About: Model action clicked!')"
       />
     </section>
 
-    <!-- 3. Services Section -->
-    <section id="services" class="landing-page__section">
+    <!-- 3. Services — card 2 | light #ffffff -->
+    <section
+      id="services"
+      class="landing-page__section landing-page__section--card landing-page__section--card-2"
+      style="background-color: #ffffff;"
+    >
       <app-services
         (serviceClick)="showToast('Service selected: ' + $event.title)"
       />
     </section>
 
-    <!-- 4. Podcast Section -->
-    <section id="podcast" class="landing-page__section">
+    <!-- 4. Podcast — card 3 | dark #091635 -->
+    <section
+      id="podcast"
+      class="landing-page__section landing-page__section--card landing-page__section--card-3"
+      style="background-color: #091635;"
+    >
       <app-podcast
         (spotifyClick)="showToast('Opening Spotify Podcasts...')"
         (appleClick)="showToast('Opening Apple Podcasts...')"
@@ -46,20 +63,28 @@
       />
     </section>
 
-    <!-- 5. Testimonials Section -->
-    <section id="testimonials" class="landing-page__section">
+    <!-- 5. Testimonials — card 4 | light #ffffff -->
+    <section
+      id="testimonials"
+      class="landing-page__section landing-page__section--card landing-page__section--card-4"
+      style="background-color: #ffffff;"
+    >
       <app-testimonial-section
         (authorClick)="showToast('Testimonial author: ' + $event.authorName)"
       />
     </section>
+
+    <!-- 6. Contact / Footer — card 5 | dark #080d19 -->
+    <section
+      id="contact"
+      class="landing-page__section landing-page__section--card landing-page__section--card-5"
+      style="background-color: #080d19;"
+    >
+      <app-footer-section
+        (getInTouchClick)="showToast('Get In Touch clicked!')"
+        (socialClick)="handleSocialSelect($event)"
+      />
+    </section>
+
   </div>
-
-  <!-- 6. Contact / Footer Section (Sticky bottom reveal beneath content body) -->
-  <section id="contact" class="landing-page__section landing-page__section--footer">
-    <app-footer-section
-      (getInTouchClick)="showToast('Get In Touch clicked!')"
-      (socialClick)="handleSocialSelect($event)"
-    />
-  </section>
 </main>
-

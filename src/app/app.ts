@@ -60,6 +60,16 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   /** Live intersection ratio for every tracked section */
   private readonly sectionRatios = new Map<string, number>();
 
+  // ── Card stack scale ──────────────────────────────────────────────
+  /** IDs of sections that participate in the card-stack (including hero) */
+  private readonly cardSectionIds = ['hero', 'about', 'services', 'podcast', 'testimonials', 'contact'];
+
+  /** Bound scroll handler reference — kept for removeEventListener cleanup */
+  private scrollListener: (() => void) | null = null;
+
+  /** rAF handle used to throttle the scale update to one frame per scroll event */
+  private scaleRAF: number | null = null;
+
   public ngAfterViewInit(): void {
     const contentSectionIds = ['hero', 'about', 'services', 'podcast', 'testimonials', 'contact'];
 
@@ -70,7 +80,6 @@ export class AppComponent implements AfterViewInit, OnDestroy {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               entry.target.classList.add('landing-page__section--visible');
-              // Once animated in, no need to keep observing this element
               this.animationObserver?.unobserve(entry.target);
             }
           });
@@ -79,19 +88,14 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       );
 
       // ── 2. Nav-active observer ────────────────────────────────────────────
-      // 21 thresholds give fine-grained ratio updates across the full range.
-      // On each callback, update this section's ratio then pick the winner.
       const navThresholds = Array.from({ length: 21 }, (_, i) => i / 20);
 
       this.navObserver = new IntersectionObserver(
         (entries) => {
-          // Update the stored ratio for every changed entry
           entries.forEach((entry) => {
             this.sectionRatios.set(entry.target.id, entry.intersectionRatio);
           });
 
-          // Pick the section with the highest visible ratio as the active one.
-          // Ties (e.g. both at 0) leave the current activeSection unchanged.
           let bestId = '';
           let bestRatio = -1;
           this.sectionRatios.forEach((ratio, id) => {
@@ -117,23 +121,115 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       contentSectionIds.forEach((id) => {
         const el = document.getElementById(id);
         if (el) {
-          this.sectionRatios.set(id, 0);       // initialise ratio map
+          this.sectionRatios.set(id, 0);
           this.animationObserver?.observe(el);
           this.navObserver?.observe(el);
         }
       });
 
     } else {
-      // Fallback — no IntersectionObserver: make everything visible immediately
       contentSectionIds.forEach((id) => {
         document.getElementById(id)?.classList.add('landing-page__section--visible');
       });
+    }
+
+    // ── Card scale scroll listener ──────────────────────────────────
+    this.scrollListener = () => {
+      if (this.scaleRAF !== null) return;
+      this.scaleRAF = requestAnimationFrame(() => {
+        this.scaleRAF = null;
+        this.updateCardScales();
+      });
+    };
+    window.addEventListener('scroll', this.scrollListener, { passive: true });
+    this.updateCardScales();
+  }
+
+  /**
+   * For each card section, calculates scroll progress of incoming and outgoing cards.
+   * - Active card at rest: scale(1.0), border-radius: 0px (fills viewport edge-to-edge).
+   * - Incoming card: scales UP (0.98 → 1.0) while smoothly flattening border-radius (36px → 0px).
+   * - Covered card: scales DOWN (1.0 → 0.97) while smoothly restoring rounded corners (0px → 36px) and dimming into depth.
+   * - Updates active section signal for logo color switching and nav highlights.
+   */
+  private updateCardScales(): void {
+    const viewportH = window.innerHeight;
+    const scrollY = window.scrollY;
+    const numCards = this.cardSectionIds.length;
+    const maxRadius = window.innerWidth >= 768 ? 36 : 28;
+
+    const elements: (HTMLElement | null)[] = this.cardSectionIds.map(id => document.getElementById(id));
+    const progresses: number[] = new Array(numCards - 1).fill(0);
+
+    for (let i = 0; i < numCards - 1; i++) {
+      const nextEl = elements[i + 1];
+      if (!nextEl) continue;
+
+      const nextTop = nextEl.getBoundingClientRect().top;
+      const progress = Math.max(0, Math.min(1, (viewportH - nextTop) / viewportH));
+      progresses[i] = progress;
+    }
+
+    for (let i = 0; i < numCards; i++) {
+      const cardEl = elements[i];
+      if (!cardEl) continue;
+
+      let scale = 1;
+      let brightness = 1;
+      let borderRadius = 0;
+
+      const coverProgress = i < numCards - 1 ? progresses[i] : 0;
+      const incomingProgress = i > 0 ? progresses[i - 1] : 1;
+
+      if (coverProgress > 0) {
+        // Card i is being covered by card i+1 (or subsequent cards)
+        let extraCover = 0;
+        for (let j = i + 1; j < numCards - 1; j++) {
+          extraCover += progresses[j];
+        }
+        const totalProgress = coverProgress + extraCover * 0.5;
+
+        scale = Math.max(0.93, 1 - totalProgress * 0.03);
+        brightness = Math.max(0.75, 1 - totalProgress * 0.15);
+        borderRadius = Math.min(maxRadius, coverProgress * maxRadius);
+      } else if (incomingProgress < 1) {
+        // Card i is incoming (sliding up over card i-1)
+        scale = 0.98 + incomingProgress * 0.02;
+        brightness = 1;
+        borderRadius = (1 - incomingProgress) * maxRadius;
+      } else {
+        // Card i is fully active at top
+        scale = 1.0;
+        brightness = 1.0;
+        borderRadius = 0;
+      }
+
+      cardEl.style.transform = `scale(${scale.toFixed(4)})`;
+      cardEl.style.filter = `brightness(${brightness.toFixed(3)})`;
+      cardEl.style.borderRadius = `${borderRadius.toFixed(1)}px`;
+    }
+
+    // ── Active Section Detection for Navbar ─────────────────────────
+    const activeIndex = Math.min(
+      numCards - 1,
+      Math.max(0, Math.floor((scrollY + viewportH * 0.45) / viewportH))
+    );
+    const currentActive = this.cardSectionIds[activeIndex];
+    if (this.activeSection() !== currentActive) {
+      this.activeSection.set(currentActive);
     }
   }
 
   public ngOnDestroy(): void {
     this.animationObserver?.disconnect();
     this.navObserver?.disconnect();
+    if (this.scaleRAF !== null) {
+      cancelAnimationFrame(this.scaleRAF);
+    }
+    if (this.scrollListener) {
+      window.removeEventListener('scroll', this.scrollListener);
+      this.scrollListener = null;
+    }
   }
 
   // --- Public Methods ---

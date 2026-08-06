@@ -13,7 +13,7 @@
 html {
   scroll-behavior: smooth;
   scroll-snap-type: y proximity;
-  overflow-x: hidden;
+  overflow-x: clip;
   width: 100%;
 }
 
@@ -24,7 +24,7 @@ body {
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow-x: clip;
   width: 100%;
 }
 

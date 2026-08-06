@@ -64,18 +64,17 @@ export class NavbarComponent {
     this.isMobileMenuOpen.set(false);
 
     if (item.id === 'contact') {
-      // Scroll to the very bottom of the page so the sticky footer is fully revealed
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      const contactEl = document.getElementById('contact');
+      if (contactEl) {
+        window.scrollTo({ top: contactEl.offsetTop, behavior: 'smooth' });
+      } else {
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      }
     } else {
-      // Map nav item ID to section DOM ID
       const targetId = item.id === 'home' ? 'hero' : item.id;
       const element = document.getElementById(targetId);
       if (element) {
-        const navbarEl = document.querySelector('.navbar') as HTMLElement | null;
-        const navbarHeight = navbarEl ? navbarEl.getBoundingClientRect().height : 80;
-        const gap = -110;
-        const targetTop = element.getBoundingClientRect().top + window.scrollY - navbarHeight - gap;
-        window.scrollTo({ top: targetTop, behavior: 'smooth' });
+        window.scrollTo({ top: element.offsetTop, behavior: 'smooth' });
       }
     }
 

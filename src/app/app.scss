@@ -1,12 +1,32 @@
+// =====================================================================
+// Landing Page — Card Stack Layout
+// N-Compass TV
+//
+// Architecture
+// ────────────
+// • Hero        – full-bleed base layer (no card treatment)
+// • About       – card-1  z-index 3
+// • Services    – card-2  z-index 4
+// • Podcast     – card-3  z-index 5
+// • Testimonials– card-4  z-index 6
+// • Contact     – card-5  z-index 7
+//
+// Each card is `position: sticky; top: <navbar-clearance>` so it
+// sticks in place while the next card slides up from below.
+// JavaScript in AppComponent drives a subtle scale-down (1 → 0.95)
+// on each card as the next card covers it, creating depth.
+// =====================================================================
+
 .landing-page {
   position: relative;
   width: 100%;
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
+  overflow-x: clip;
   background-color: #080d19;
 
+  // ── Toast ──────────────────────────────────────────────────────────
   &__toast {
     position: fixed;
     top: 5rem;
@@ -23,56 +43,66 @@
     animation: fadeInToast 0.3s ease forwards;
   }
 
-  // ─── Content Wrapper ────────────────────────────────────────────────
-  // Sits on top of the sticky footer via z-index + solid background.
-  // As this wrapper scrolls off the viewport, the footer is revealed.
+  // ── Content Wrapper ────────────────────────────────────────────────
   &__content {
     position: relative;
     z-index: 2;
     width: 100%;
-    background-color: #080d19;
   }
 
-  // ─── Section Base ────────────────────────────────────────────────────
+  // ── Section Base ───────────────────────────────────────────────────
   &__section {
     position: relative;
-    z-index: 2;
     width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    scroll-snap-align: start;
-    scroll-margin-top: 4rem;
     box-sizing: border-box;
 
-    // Entrance animation: each content section fades in once from below
     opacity: 0;
-    transform: translateY(35px);
-    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: opacity, transform;
+    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1);
 
     &--visible {
       opacity: 1;
-      transform: translateY(0);
     }
 
-    // ─── Footer Section ──────────────────────────────────────────────
-    // Sticks to the bottom of the viewport, hidden behind the content
-    // wrapper (z-index: 1 < content z-index: 2). Revealed naturally as
-    // the content wrapper scrolls off the bottom of the viewport.
-    &--footer {
+    // ── Card (full viewport stacked card) ──────────────────────────────
+    // Each section is sticky at top: 0, filling the full viewport (100vw × 100vh).
+    // As user scrolls down, section N+1 (higher z-index) slides up from y = 100vh
+    // and completely covers section N (fixed at top: 0).
+    &--card {
       position: sticky;
-      bottom: 0;
-      z-index: 1;
-      min-height: auto;
-      // Override inherited entrance-animation defaults
-      opacity: 1;
-      transform: none;
-      transition: none;
-      will-change: auto;
+      top: 0;
+      width: 100%;
+      height: 100vh;
+      min-height: 100vh;
+      border-radius: 28px;
+      overflow: hidden;
+      box-sizing: border-box;
+
+      @media (min-width: 768px) {
+        border-radius: 36px;
+      }
+
+      // Default transform & scale origin
+      transform: scale(1);
+      transform-origin: center top;
+      will-change: transform, filter, border-radius;
+
+      // Depth drop shadow + edge ring accent
+      box-shadow:
+        0 -15px 40px rgba(0, 0, 0, 0.50),
+        0 30px 70px rgba(0, 0, 0, 0.60);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+
+      // Smooth opacity transition for entrance
+      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1);
     }
+
+    // ── Z-index stacking (Hero is card-0) ─────────────────────────────
+    &--card-0 { z-index: 2; }
+    &--card-1 { z-index: 3; }
+    &--card-2 { z-index: 4; }
+    &--card-3 { z-index: 5; }
+    &--card-4 { z-index: 6; }
+    &--card-5 { z-index: 7; }
   }
 }
 
@@ -86,4 +116,3 @@
     transform: translateY(0);
   }
 }
-
