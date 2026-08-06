@@ -57,7 +57,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
    */
   private navObserver: IntersectionObserver | null = null;
 
-  /** Live intersection ratio for every tracked section */
+  /** Visible pixel height for every tracked section (from IntersectionObserver.intersectionRect.height) */
   private readonly sectionRatios = new Map<string, number>();
 
   // ── Card stack scale ──────────────────────────────────────────────
@@ -88,24 +88,29 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       );
 
       // ── 2. Nav-active observer ────────────────────────────────────────────
-      const navThresholds = Array.from({ length: 21 }, (_, i) => i / 20);
+      // Use 101 thresholds for fine-grained tracking.
+      // Compare visible pixel height (intersectionRect.height) instead of ratio,
+      // so that sections taller than the viewport are compared on equal footing.
+      const navThresholds = Array.from({ length: 101 }, (_, i) => i / 100);
 
       this.navObserver = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            this.sectionRatios.set(entry.target.id, entry.intersectionRatio);
+            // Store visible pixel height so full-height sections (100vh+)
+            // aren't penalised vs shorter sections by ratio arithmetic.
+            this.sectionRatios.set(entry.target.id, entry.intersectionRect.height);
           });
 
           let bestId = '';
-          let bestRatio = -1;
-          this.sectionRatios.forEach((ratio, id) => {
-            if (ratio > bestRatio) {
-              bestRatio = ratio;
+          let bestPx = -1;
+          this.sectionRatios.forEach((px, id) => {
+            if (px > bestPx) {
+              bestPx = px;
               bestId = id;
             }
           });
 
-          if (bestId && bestRatio > 0) {
+          if (bestId && bestPx > 0) {
             this.activeSection.set(bestId);
           }
         },
@@ -211,20 +216,6 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       cardEl.style.borderRadius = `${borderRadius.toFixed(1)}px`;
     }
 
-    // ── Active Section Detection for Navbar ─────────────────────────
-    let currentActive = 'hero';
-    for (let i = 0; i < numCards; i++) {
-      const id = this.cardSectionIds[i];
-      const el = elements[i];
-      if (!el) continue;
-      const rect = el.getBoundingClientRect();
-      if (rect.top <= viewportH * 0.5) {
-        currentActive = id;
-      }
-    }
-    if (this.activeSection() !== currentActive) {
-      this.activeSection.set(currentActive);
-    }
   }
 
   public ngOnDestroy(): void {
@@ -240,9 +231,9 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   }
 
   // --- Public Methods ---
-  public handleNavSelect(item: NavItem): void {
-    const targetSection = item.id === 'home' ? 'hero' : item.id;
-    this.activeSection.set(targetSection);
+  public handleNavSelect(_item: NavItem): void {
+    // Active section is managed exclusively by the navObserver (IntersectionObserver).
+    // No manual override needed — the IO will update activeSection as the scroll settles.
   }
   public handleSocialSelect(platform: SocialPlatform): void {
     this.activeSocialPlatform.set(platform);

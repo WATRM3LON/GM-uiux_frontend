@@ -50,13 +50,23 @@ export class NavbarComponent {
     this.isMobileMenuOpen.update((isOpen: boolean): boolean => !isOpen);
   }
 
-  /** Ordered IDs matching card stack sequence in AppComponent */
+  /**
+   * Ordered section IDs matching the card-stack sequence.
+   * Each card occupies exactly one viewport-height slot in the document
+   * (position: sticky; height: 100vh), so its true document offset is:
+   *   index × window.innerHeight
+   * This avoids the sticky trap where getBoundingClientRect().top always
+   * returns 0 for a stuck card, making reverse/non-sequential navigation fail.
+   */
   private readonly cardSectionIds: readonly string[] = ['hero', 'about', 'services', 'podcast', 'testimonials', 'contact'];
 
   /**
    * Handles selection of a navigation item with smooth scrolling to target section card.
-   * Calculates exact Y scroll top position (element.getBoundingClientRect().top + window.scrollY)
-   * to guarantee smooth scrolling to all sections (Home, About, Services, Podcast, Contact).
+   *
+   * Uses index-based document offset (sectionIndex × viewportHeight) instead of
+   * getBoundingClientRect(), which returns misleading values for sticky elements —
+   * a stuck card always reports top: 0 regardless of actual document position.
+   *
    * @param item Selected navigation item payload
    * @param event DOM click event
    */
@@ -67,13 +77,13 @@ export class NavbarComponent {
     this.isMobileMenuOpen.set(false);
 
     const targetId = item.id === 'home' ? 'hero' : item.id;
-    const element = document.getElementById(targetId);
+    const sectionIndex = this.cardSectionIds.indexOf(targetId);
 
-    if (element) {
-      const targetTop = element.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({ top: targetTop, behavior: 'smooth' });
-    } else if (item.id === 'contact') {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    if (sectionIndex !== -1) {
+      // Each sticky card slot is exactly one viewport-height tall in the document.
+      // Multiply the index by the current viewport height to get the true scroll target.
+      const targetScrollY = sectionIndex * window.innerHeight;
+      window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
     }
 
     this.navSelect.emit(item);
