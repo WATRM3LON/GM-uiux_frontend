@@ -25,17 +25,20 @@
 
     <!-- Right Side Call Action & Mobile Toggle -->
     <div class="navbar__actions">
-      <button
-        type="button"
-        class="navbar__call-button"
-        aria-label="Call N-Compass TV"
-        (click)="handleCallClick()"
-      >
-        <span class="navbar__call-text">Call us Today</span>
-        <svg class="navbar__call-icon" aria-hidden="true">
-          <use href="assets/sprite.svg#icon-phone"></use>
-        </svg>
-      </button>
+      <!-- Fixed-size anchor: flex always sees 2.75rem; button expands leftward via absolute positioning -->
+      <div class="navbar__call-wrapper">
+        <button
+          type="button"
+          class="navbar__call-button"
+          aria-label="Call N-Compass TV"
+          (click)="handleCallClick()"
+        >
+          <span class="navbar__call-text">Call us Today</span>
+          <svg class="navbar__call-icon" aria-hidden="true">
+            <use href="assets/sprite.svg#icon-phone"></use>
+          </svg>
+        </button>
+      </div>
 
       <button
         type="button"
