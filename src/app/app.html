@@ -10,7 +10,7 @@
   <app-navbar
     [activeSection]="activeSection()"
     (navSelect)="handleNavSelect($event)"
-    (callClick)="handleCallAction()"
+    (callClick)="scrollToContact()"
   />
 
   <!-- Card Stack Content -->
@@ -58,9 +58,9 @@
       style="background-color: #091635;"
     >
       <app-podcast
-        (spotifyClick)="showToast('Opening Spotify Podcasts...')"
-        (appleClick)="showToast('Opening Apple Podcasts...')"
-        (playClick)="showToast('Playing Podcast Video...')"
+        (spotifyClick)="null"
+        (appleClick)="null"
+        (playClick)="null"
       />
     </section>
 
@@ -82,7 +82,7 @@
       style="background-color: #080d19;"
     >
       <app-footer-section
-        (getInTouchClick)="showToast('Get In Touch clicked!')"
+        (getInTouchClick)="scrollToContact()"
         (socialClick)="handleSocialSelect($event)"
       />
     </section>

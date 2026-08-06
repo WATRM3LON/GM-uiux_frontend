@@ -250,11 +250,9 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   }
   public handleSocialSelect(platform: SocialPlatform): void {
     this.activeSocialPlatform.set(platform);
-    this.showToast(`Selected social platform: ${platform}`);
   }
 
   public handleCallAction(): void {
-    this.showToast('Initiating phone call to N-Compass TV...');
   }
 
   public showToast(message: string): void {
