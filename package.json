@@ -27,6 +27,7 @@
     "@angular/router": "^22.0.0",
     "@ntv360/component-pantry": "^0.7.3",
     "apexcharts": "^5.16.0",
+    "lottie-web": "^5.13.0",
     "ng-apexcharts": "^2.4.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
