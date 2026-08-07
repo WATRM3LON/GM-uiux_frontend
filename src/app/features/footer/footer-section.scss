@@ -357,3 +357,235 @@
     }
   }
 }
+
+// =====================================================
+// Contact Modal — matches N-Compass TV dark design
+// =====================================================
+
+// Override the ntv-modal shell & inner containers (.modal__content, .modal__body)
+// to be transparent/frameless so our .contact-modal wrapper takes full visual control
+::ng-deep .contact-modal-shell {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  overflow: visible !important;
+
+  .modal__content,
+  .modal__body {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+}
+
+.contact-modal {
+  position: relative;
+  background: linear-gradient(
+    145deg,
+    rgba(11, 18, 34, 0.97) 0%,
+    rgba(9, 22, 53, 0.95) 50%,
+    rgba(8, 13, 25, 0.98) 100%
+  );
+  border: 1px solid rgba(125, 201, 49, 0.35);
+  border-radius: 28px;
+  overflow: hidden;
+  padding: 2.5rem 2.5rem 2rem;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow:
+    0 0 0 1px rgba(125, 201, 49, 0.08),
+    0 32px 80px rgba(0, 0, 0, 0.65),
+    0 0 60px rgba(125, 201, 49, 0.06);
+
+  @media (max-width: 640px) {
+    padding: 2rem 1.5rem 1.5rem;
+    border-radius: 20px;
+  }
+
+  // ─── Decorative top glow line ─────────────────────
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(125, 201, 49, 0.7) 50%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
+
+  // ─── Header ───────────────────────────────────────
+  &__header {
+    position: relative;
+    margin-bottom: 2rem;
+    padding-right: 3rem; // space for close btn
+  }
+
+  &__accent-bar {
+    width: 3rem;
+    height: 3px;
+    background: linear-gradient(90deg, #7dc931 0%, #8DCB2C 100%);
+    border-radius: 9999px;
+    margin-bottom: 1.25rem;
+  }
+
+  &__title {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 900;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    margin: 0 0 0.75rem;
+
+    // Green gradient on last word effect via simple color
+    span {
+      color: #7dc931;
+    }
+  }
+
+  &__subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 400;
+    line-height: 1.65;
+    color: #94a3b8;
+    margin: 0;
+    max-width: 440px;
+  }
+
+  // ─── Close button ─────────────────────────────────
+  &__close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.06);
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    &:hover {
+      background: rgba(125, 201, 49, 0.12);
+      border-color: rgba(125, 201, 49, 0.4);
+      color: #7dc931;
+    }
+  }
+
+  // ─── Form grid ────────────────────────────────────
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+
+    // Override ntv-input label colour to match page palette
+    ::ng-deep {
+      label,
+      .input-label {
+        font-family: 'Inter', sans-serif !important;
+        font-size: 0.8125rem !important;
+        font-weight: 600 !important;
+        color: #cbd5e1 !important;
+        letter-spacing: 0.01em !important;
+        text-transform: uppercase !important;
+      }
+
+      input,
+      textarea {
+        background: rgba(255, 255, 255, 0.04) !important;
+        color: #f1f5f9 !important;
+        font-family: 'Inter', sans-serif !important;
+
+        &::placeholder {
+          color: #475569 !important;
+        }
+      }
+    }
+  }
+
+  // ─── Actions row ──────────────────────────────────
+  &__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.875rem;
+    flex-wrap: wrap;
+  }
+
+  // ─── Shared button base ───────────────────────────
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.75rem;
+    border-radius: 9999px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+
+    &-icon {
+      width: 1rem;
+      height: 1rem;
+      flex-shrink: 0;
+    }
+
+    // Ghost / Cancel variant
+    &--ghost {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #94a3b8;
+
+      &:hover {
+        border-color: rgba(255, 255, 255, 0.35);
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.05);
+      }
+    }
+
+    // Primary / Send variant — green pill (matches .footer-sec__btn-touch)
+    &--primary {
+      background-color: #8DCB2C;
+      border: 2px solid transparent;
+      color: #080d19;
+
+      &:hover {
+        background-color: transparent;
+        border-color: #8DCB2C;
+        color: #8DCB2C;
+        transform: translateY(-2px);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  }
+}

@@ -1,6 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Button } from '@ntv360/component-pantry';
 
 
 /**
@@ -11,7 +10,7 @@ import { Button } from '@ntv360/component-pantry';
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [CommonModule, Button],
+  imports: [CommonModule],
   templateUrl: './hero.html',
   styleUrl: './hero.scss',
 })

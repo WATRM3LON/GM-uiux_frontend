@@ -116,4 +116,120 @@
     </div>
   </div>
 
+  <!-- Contact Modal -->
+  <ntv-modal
+    [isVisible]="isContactModalOpen()"
+    [closeOnBackdrop]="true"
+    [showHeader]="false"
+    [showFooter]="false"
+    [size]="'large'"
+    [backdrop]="'blur'"
+    [customClass]="'contact-modal-shell'"
+    (close)="closeContactModal()"
+  >
+
+    <div class="contact-modal">
+
+      <!-- Header -->
+      <div class="contact-modal__header">
+        <div class="contact-modal__accent-bar"></div>
+        <h2 class="contact-modal__title">
+          Let's Build Something Together
+        </h2>
+        <p class="contact-modal__subtitle">
+          We'd love to hear about your project and discuss how
+          N-Compass TV can help your business.
+        </p>
+
+        <!-- Close button -->
+        <button
+          type="button"
+          class="contact-modal__close"
+          (click)="closeContactModal()"
+          aria-label="Close modal"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Form Fields -->
+      <div class="contact-modal__form">
+
+        <ntv-input
+          [label]="'Full Name'"
+          [placeholder]="'John Doe'"
+          [required]="true"
+          [size]="'md'"
+          [borderRadius]="'lg'"
+          [hoverBorderColor]="'#7DC931'"
+          [focusBorderColor]="'#7DC931'">
+        </ntv-input>
+
+        <ntv-input
+          [type]="'email'"
+          [label]="'Email Address'"
+          [placeholder]="'john@email.com'"
+          [required]="true"
+          [size]="'md'"
+          [borderRadius]="'lg'"
+          [hoverBorderColor]="'#7DC931'"
+          [focusBorderColor]="'#7DC931'">
+        </ntv-input>
+
+        <ntv-input
+          [label]="'Company'"
+          [placeholder]="'Company Name (Optional)'"
+          [size]="'md'"
+          [borderRadius]="'lg'"
+          [hoverBorderColor]="'#7DC931'"
+          [focusBorderColor]="'#7DC931'">
+        </ntv-input>
+
+        <ntv-input
+          [multiline]="true"
+          [label]="'Message'"
+          [placeholder]="'Tell us about your project...'"
+          [required]="true"
+          [size]="'md'"
+          [maxLength]="500"
+          [showCharCount]="true"
+          [borderRadius]="'lg'"
+          [hoverBorderColor]="'#7DC931'"
+          [focusBorderColor]="'#7DC931'">
+        </ntv-input>
+
+      </div>
+
+      <!-- Actions -->
+      <div class="contact-modal__actions">
+
+        <button
+          type="button"
+          class="contact-modal__btn contact-modal__btn--ghost"
+          (click)="closeContactModal()"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="button"
+          class="contact-modal__btn contact-modal__btn--primary"
+          (click)="submitForm()"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="contact-modal__btn-icon">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+          Send Message
+        </button>
+
+      </div>
+
+    </div>
+
+  </ntv-modal>
+
 </footer>

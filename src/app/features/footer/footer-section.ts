@@ -3,6 +3,7 @@ import { Component, signal, WritableSignal, Output, EventEmitter, ElementRef, Ho
 import { GlassIconComponent } from '../../shared/components/glass-icon/glass-icon.component';
 import { CommonModule } from '@angular/common';
 import { SocialPlatform } from '../../shared/models/nav-item.interface';
+import { Modal, Input as NtvInput } from '@ntv360/component-pantry';
 
 /**
  * FooterSectionComponent — Complete Footer section featuring CTA banner and slide-up dark footer drawer.
@@ -10,7 +11,7 @@ import { SocialPlatform } from '../../shared/models/nav-item.interface';
 @Component({
   selector: 'app-footer-section',
   standalone: true,
-  imports: [CommonModule,GlassIconComponent],
+  imports: [CommonModule, GlassIconComponent, Modal, NtvInput],
   templateUrl: './footer-section.html',
   styleUrl: './footer-section.scss',
 })
@@ -23,6 +24,9 @@ export class FooterSectionComponent implements OnDestroy {
 
   /** Signal controlling whether the dark footer drawer has slid up into view */
   public readonly isSlidUp: WritableSignal<boolean> = signal<boolean>(false);
+
+  /** Controls visibility of the contact modal */
+  public readonly isContactModalOpen: WritableSignal<boolean> = signal<boolean>(false);
 
   public readonly currentYear: number = new Date().getFullYear();
 
@@ -68,7 +72,17 @@ export class FooterSectionComponent implements OnDestroy {
   }
 
   public handleGetInTouch(): void {
+    this.isContactModalOpen.set(true);
     this.getInTouchClick.emit();
+  }
+
+  public closeContactModal(): void {
+    this.isContactModalOpen.set(false);
+  }
+
+  public submitForm(): void {
+    // TODO: wire up form submission logic
+    this.isContactModalOpen.set(false);
   }
 
   public handleSocialClick(platform: SocialPlatform): void {
