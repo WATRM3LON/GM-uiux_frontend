@@ -12,7 +12,8 @@
   "packageManager": "npm@11.16.0",
   "overrides": {
     "@ntv360/component-pantry": {
-      "tailwindcss": "$tailwindcss"
+      "tailwindcss": "$tailwindcss",
+      "apexcharts": "$apexcharts"
     }
   },
   "dependencies": {
@@ -25,7 +26,7 @@
     "@angular/platform-browser": "^22.0.0",
     "@angular/router": "^22.0.0",
     "@ntv360/component-pantry": "^0.7.3",
-    "apexcharts": "^6.7.0",
+    "apexcharts": "^5.16.0",
     "ng-apexcharts": "^2.4.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
