@@ -1,5 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Button } from '@ntv360/component-pantry';
+
 
 /**
  * HeroComponent — Full-viewport hero section for N-Compass TV landing page.
@@ -9,7 +11,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, Button],
   templateUrl: './hero.html',
   styleUrl: './hero.scss',
 })
