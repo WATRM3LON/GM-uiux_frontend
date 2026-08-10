@@ -1,59 +1,98 @@
-# GMUiuxFrontend
+# GM UI/UX Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.8.
+> A modern, responsive solo project demonstrating frontend UI/UX engineering skills, interactive design patterns, and modular web architecture.
 
-## Development server
+---
 
-To start a local development server, run:
+## 📌 Project Overview
+
+**GM UI/UX Frontend** is a showcase project built to demonstrate essential and advanced UI/UX frontend skills. It highlights modern web design trends—including glassmorphism, responsive navigation, smooth animations, interactive data visualizers, and modular component design.
+
+---
+
+## ✨ Key Features & Highlights
+
+- **Hero Section**: Engaging landing hero with rich visual hierarchy and interactive elements.
+- **Glassmorphic Design Components**: Custom glassmorphism UI elements such as `glass-icon`, `feature-card`, and floating dynamic blocks.
+- **Services & Feature Showcase**: Structured feature cards designed for optimal user experience and clarity.
+- **Podcast & Media Showcase**: Interactive section for audio/media highlights.
+- **Testimonials**: Clean card layouts highlighting client/user feedback.
+- **Interactive Charts**: Visual data representation powered by ApexCharts.
+- **Lottie Animations**: Dynamic micro-animations integrated using Lottie Web.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Angular 22](https://angular.dev/) (Standalone Components, Signals & Modern Architecture)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) & SCSS
+- **UI Components**: [Angular Material](https://material.angular.dev/) & `@ntv360/component-pantry`
+- **Data Visualization**: [ApexCharts](https://apexcharts.com/) / `ng-apexcharts`
+- **Animations**: [Lottie Web](https://airbnb.io/lottie/)
+- **Language**: TypeScript & HTML5
+
+---
+
+## 📁 Directory Structure
+
+```text
+src/
+└── app/
+    ├── core/               # Core services, guards, and singleton utilities
+    ├── features/           # Feature modules (hero, services, podcast, about, testimonial, footer)
+    └── shared/             # Reusable UI components, models, constants, and utilities
+        └── components/     # Navbar, Glass Icon, Feature Card, Testimonial Card, Footer
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Ensure you have Node.js (v18+ recommended) and `npm` installed.
+
+### 1. Installation
+
+Clone the repository and install dependencies:
 
 ```bash
+npm install
+```
+
+### 2. Development Server
+
+Run the development server:
+
+```bash
+npm start
+# or
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Navigate to `http://localhost:4200/` in your browser. The application will automatically reload if you change any source files.
 
-## Code scaffolding
+### 3. Build
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+To build the project for production:
 
 ```bash
-ng generate --help
+npm run build
 ```
 
-## Building
+The build artifacts will be stored in the `dist/` directory.
 
-To build the project run:
+### 4. Running Tests
+
+To run unit tests with Vitest:
 
 ```bash
-ng build
+npm test
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+---
 
-## Running unit tests
+## 👤 Author & Project Note
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+This project is a **solo project** focused on implementing and showcasing basic to advanced UI/UX frontend development concepts, clean code principles, and modern frontend framework architecture.
 
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
